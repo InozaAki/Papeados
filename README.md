@@ -8,22 +8,6 @@
 
 ---
 
-## Tabla de Contenidos
-
-- [Descripción](#-descripción)
-- [Características](#-características)
-- [Capturas de Pantalla](#-capturas-de-pantalla)
-- [Tecnologías](#-tecnologías)
-- [Instalación](#-instalación)
-- [Cómo Jugar](#-cómo-jugar)
-- [Desarrollo](#-desarrollo)
-- [Roadmap](#-roadmap)
-- [Equipo](#-equipo)
-- [Contribuciones](#-contribuciones)
-- [Licencia](#-licencia)
-
----
-
 ## Descripción
 
 **Papeados** es un videojuego multijugador en red de 2 a 6 jugadores inspirado en el clásico juego de "papa caliente". Los jugadores deben evitar quedarse con la papa bomba cuando el temporizador llegue a cero, moviéndose estratégicamente por el mapa y pasándola a otros jugadores mediante colisión.
