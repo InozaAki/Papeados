@@ -1,7 +1,7 @@
 # Papeados
 
 ![Estado del Proyecto](https://img.shields.io/badge/Estado-En%20Desarrollo-yellow)
-![Licencia](https://img.shields.io/badge/Licencia-MIT-blue)
+![Licencia](https://img.shields.io/badge/license-%20%20GNU%20GPLv3%20-green?style=plastic)
 ![Versión](https://img.shields.io/badge/Versión-0.1.0--alpha-orange)
 
 > Un juego multijugador casual tipo "papa caliente" donde la última persona con la papa... ¡Es papeado!
