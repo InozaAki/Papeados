@@ -23,7 +23,7 @@ Este proyecto es desarrollado como parte del curso de **Videojuegos en Red** con
 ## Características
 
 ### Implementadas
-- [ ] Movimiento de jugadores en 2D
+- [x] Movimiento de jugadores en 2D (Básico)
 - [ ] Sistema de colisiones
 - [ ] Temporizador regresivo
 - [ ] Transferencia de papa entre jugadores
@@ -35,13 +35,25 @@ Este proyecto es desarrollado como parte del curso de **Videojuegos en Red** con
 - [ ] Interfaz de usuario completa
 - [ ] Efectos de sonido y música
 - [ ] Sistema de puntuación
+### Propuestas de mecánicas a añadir
 
-### Planeadas
-- [ ] Múltiples mapas
-- [ ] Power-ups especiales
-- [ ] Modos de juego alternativos
-- [ ] Sistema de ranking
-- [ ] Personalización de personajes
+**Mecánicas de las papas**
+
+- Múltiples papas, después de X ronda, se pueden introducir 2 papas simultáneas
+- Explosión en Área, al explotar elimina a todos los jugadores en un radio pequeño
+
+**Mecánicas de movimiento**
+
+- Empujones, al colisionar con alguien ambos se empujan ligeramente.
+- Un ítem aparecerá en el mapa que invertirá la gravedad del mapa.
+- Quien tiene la papa se moverá un 20% más rápido
+- Un ítem aparecerá aleatoriamente y le brindará 15% de velocidad a quien lo haya tomado
+
+**Mecánicas del mapa**
+
+- Las plataformas se pueden romper después de X veces de pisarlas y volverán a aparecer X segundos después
+- Las plataformas se mueven en patrones
+- Trampolines, o portales para mantener un juego dinámico
 
 ---
 
