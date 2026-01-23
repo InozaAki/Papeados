@@ -1,12 +1,48 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6ey4rllf7h2q"]
+[gd_scene load_steps=8 format=3 uid="uid://c6ey4rllf7h2q"]
 
 [ext_resource type="Script" uid="uid://cqew7xhtuf6c7" path="res://Assets/Scripts/explosive_potato.gd" id="1_ac65k"]
+[ext_resource type="Texture2D" uid="uid://5e2mk42b1fob" path="res://Assets/Sprites/papa-bomba.png" id="2_rdemm"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_3f30y"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdemm"]
+atlas = ExtResource("2_rdemm")
+region = Rect2(31, 63, 231, 275)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ogi6q"]
+atlas = ExtResource("2_rdemm")
+region = Rect2(262, 63, 231, 275)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0j0ad"]
+atlas = ExtResource("2_rdemm")
+region = Rect2(493, 63, 231, 275)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gk3pq"]
+atlas = ExtResource("2_rdemm")
+region = Rect2(724, 63, 231, 275)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w4cx2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rdemm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ogi6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j0ad")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gk3pq")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [node name="ExplosivePotato" type="Node2D"]
-scale = Vector2(50, 50)
 script = ExtResource("1_ac65k")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_3f30y")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_w4cx2")
+animation = &"idle"
+frame_progress = 0.12743811

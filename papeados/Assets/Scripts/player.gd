@@ -98,11 +98,9 @@ func _start_dash() -> void:
 	is_dashing = true
 	can_dash = false
 	
-	# End dash after duration
 	await get_tree().create_timer(dash_duration).timeout
 	is_dashing = false
 	
-	# Reset dash availability after cooldown
 	await get_tree().create_timer(dash_cooldown).timeout
 	can_dash = true
 
@@ -121,6 +119,9 @@ func _update_animation() -> void:
 		animated_sprite.play("walk")
 	else:
 		animated_sprite.play("idle")
+
+func apply_knockback(knockback_vector: Vector2) -> void:
+	velocity += knockback_vector
 
 func _on_area_2d_body_entered(body: Node) -> void:
 	if body is Player and body != self:
