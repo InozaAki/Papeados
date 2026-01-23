@@ -1,2 +1,8 @@
 res://Assets/Scenes/first_map.tscn
 res://Assets/Scripts/player.gd
+res://Assets/Scripts/spawn_players.gd
+res://Assets/Scenes/player.tscn
+res://Assets/Scenes/potato.tscn
+res://Assets/Scenes/explosive_potato.tscn
+res://Assets/Scripts/explosive_potato.gd
+res://Assets/Scripts/spawn_explosive_potato.gd

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6ey4rllf7h2q"]
+
+[ext_resource type="Script" uid="uid://cqew7xhtuf6c7" path="res://Assets/Scripts/explosive_potato.gd" id="1_ac65k"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_3f30y"]
+
+[node name="ExplosivePotato" type="Node2D"]
+scale = Vector2(50, 50)
+script = ExtResource("1_ac65k")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_3f30y")
