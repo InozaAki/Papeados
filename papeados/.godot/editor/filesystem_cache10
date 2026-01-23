@@ -1,10 +1,15 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1769135106
+::res://::1769183965
 icon.svg::CompressedTexture2D::1054917381745504061::1769119422::1769119431::1::::<><><>0<>0<>118e1af9c248a88e6797f53580b5ba59<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 ::res://Assets/::1769128759
-::res://Assets/Scenes/::1769128801
-main_menu.tscn::PackedScene::4571401722002164790::1769119454::0::1::::<><><>0<>0<><>::
-::res://Assets/Scripts/::1769128740
+::res://Assets/Scenes/::1769141527
+first_map.tscn::PackedScene::8626020007798819952::1769141527::0::1::::<><><>0<>0<><>::uid://br4dwbrs8eokr::::res://Assets/Scripts/player.gd<>uid://vukn3ut7mbeo::::res://Assets/Scripts/world_bounds.gd<>uid://b36ehksen7j5y::::res://Assets/Scripts/platformGenerator.gd
+main_menu.tscn::PackedScene::427541850981442688::1769135256::0::1::::<><><>0<>0<><>::
+::res://Assets/Scripts/::1769141527
+platformGenerator.gd::GDScript::4415959937702625160::1769140647::0::1::::<>Node2D<><>0<>0<><>::
+player.gd::GDScript::3639719498498727885::1769141527::0::1::::<>CharacterBody2D<><>0<>0<><>::
+world_bounds.gd::GDScript::1515885159184704986::1769139237::0::1::::<>Node2D<><>0<>0<><>::
 ::res://Assets/Sounds/::1769128754
-::res://Assets/Sprites/::1769128747
+::res://Assets/Sprites/::1769184989
+Old hero.png::CompressedTexture2D::5804109221243689798::1769184990::1769185000::1::::<><><>0<>0<>46896a404109a8345e4de4a2531533f9<>res://.godot/imported/Old hero.png-5ad13ebae6c18c43ada4473e9e41bc8c.ctex::
 ::res://Docs/::1769128774

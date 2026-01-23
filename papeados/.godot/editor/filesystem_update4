@@ -1,4 +1,2 @@
-res://Assets/Scripts/player.gd
 res://Assets/Scenes/first_map.tscn
-res://Assets/Scripts/world_bounds.gd
-res://Assets/Scripts/platformGenerator.gd
+res://Assets/Scripts/player.gd
