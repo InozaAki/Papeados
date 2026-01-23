@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://du5rj3myyxqds"]
+
+[ext_resource type="Script" uid="uid://br4dwbrs8eokr" path="res://Assets/Scripts/player.gd" id="1_38u3y"]
+[ext_resource type="Script" uid="uid://vukn3ut7mbeo" path="res://Assets/Scripts/world_bounds.gd" id="2_ipktb"]
+[ext_resource type="Script" uid="uid://b36ehksen7j5y" path="res://Assets/Scripts/platformGenerator.gd" id="3_2t2sq"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ipktb"]
+size = Vector2(10, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2t2sq"]
+size = Vector2(8, 20)
+
+[node name="FirstMap" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("1_38u3y")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = SubResource("PlaceholderTexture2D_ipktb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_2t2sq")
+
+[node name="World" type="Node2D" parent="."]
+script = ExtResource("2_ipktb")
+arena_height = 500
+
+[node name="Platforms" type="Node2D" parent="World"]
+script = ExtResource("3_2t2sq")

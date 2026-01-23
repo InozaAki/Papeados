@@ -1,0 +1,10 @@
+Node2D
+Camera2D
+Container
+CollisionShape2D
+StaticBody2D
+RigidBody2D
+Control
+Area2D
+Sprite2D
+CharacterBody2D
