@@ -23,7 +23,7 @@ Este proyecto es desarrollado como parte del curso de **Videojuegos en Red** con
 ## Características
 
 ### Implementadas
-- [ ] Movimiento de jugadores en 2D
+- [x] Movimiento de jugadores en 2D (Básico)
 - [ ] Sistema de colisiones
 - [ ] Temporizador regresivo
 - [ ] Transferencia de papa entre jugadores
