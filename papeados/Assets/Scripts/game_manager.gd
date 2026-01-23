@@ -28,7 +28,7 @@ func _initialize() -> void:
 	
 	if potato_spawn_on_ready:
 		spawn_potato_on_random_player()
-	
+
 	game_started.emit()
 
 func _spawn_all_players() -> void:
@@ -36,7 +36,6 @@ func _spawn_all_players() -> void:
 		var player = player_scene.instantiate()
 		player.position = spawn_positions[i]
 		player.player_id = i + 1
-		player.use_custom_controls = spawn_positions.size() > 1
 		add_child(player)
 		players.append(player)
 		player_spawned.emit(player)
@@ -68,13 +67,49 @@ func spawn_potato_on_player(player: Player) -> ExplosivePotato:
 	var potato: ExplosivePotato = explosive_potato_scene.instantiate()
 	add_child(potato)
 	potato.attach_to_player(player)
-	potato.tree_exited.connect(_on_potato_destroyed.bind(potato))
+	potato.exploding.connect(_on_potato_exploding.bind(potato))
 	active_potatoes.append(potato)
 	potato_spawned.emit(potato)
 	return potato
 
-func _on_potato_destroyed(potato: ExplosivePotato) -> void:
+func attach_potato_to_player(potato: ExplosivePotato, player: Player) -> void:
+	if not is_instance_valid(potato) or not is_instance_valid(player):
+		return
+	potato.attach_to_player(player)
+
+func _on_potato_exploding(players_in_range: Array[Player], potato: ExplosivePotato) -> void:
+
+	for p in players_in_range:
+		_eliminate_player(p)
+	
 	active_potatoes.erase(potato)
+
+func _eliminate_player(player: Player) -> void:
+	if is_instance_valid(player):
+		players.erase(player)
+		player.queue_free()
+		if win_condition_met():
+			_end_game()
+
+func _end_game() -> void:
+	print("Game Over! Player %d wins!" % players[0].player_id)
+	
+	potato_spawn_on_ready = false
+	
+	if potato_spawn_timer:
+		potato_spawn_timer.stop()
+	
+
+	game_ended.emit()
+
+func get_player_with_potato() -> Player:
+	for potato in active_potatoes:
+		if is_instance_valid(potato) and is_instance_valid(potato.attached_player):
+			return potato.attached_player
+	return null
+
+func win_condition_met() -> bool:
+	return players.size() == 1
 
 func get_player_by_id(player_id: int) -> Player:
 	for player in players:

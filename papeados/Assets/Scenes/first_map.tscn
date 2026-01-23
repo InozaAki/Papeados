@@ -10,7 +10,7 @@
 script = ExtResource("1_olm3b")
 player_scene = ExtResource("2_hvjim")
 explosive_potato_scene = ExtResource("2_e1lld")
-spawn_positions = Array[Vector2]([Vector2(-200, 0)])
+spawn_positions = Array[Vector2]([Vector2(-200, 0), Vector2(-300, 0)])
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

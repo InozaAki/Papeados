@@ -1,6 +1,8 @@
 extends Node2D
 class_name ExplosivePotato
 
+signal exploding(players_in_range: Array[Player])
+
 @export_group("Explosion Settings")
 @export var explosion_timer := 10.0
 @export var explosion_radius := 200.0
@@ -66,11 +68,12 @@ func _explode() -> void:
 	for player in players_in_range:
 		_apply_knockback(player)
 	
+	exploding.emit(players_in_range)
 	queue_free()
 
 func _get_players_in_radius() -> Array[Player]:
 	var result: Array[Player] = []
-	var game_manager := _get_game_manager()
+	var game_manager = _get_game_manager()
 	
 	if not game_manager:
 		return result

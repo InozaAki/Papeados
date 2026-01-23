@@ -125,4 +125,13 @@ func apply_knockback(knockback_vector: Vector2) -> void:
 
 func _on_area_2d_body_entered(body: Node) -> void:
 	if body is Player and body != self:
-		print("Player %d collided with Player %d" % [player_id, body.player_id])
+		var direction = (body.global_position - global_position).normalized()
+		var knockback = direction * 300.0
+		body.apply_knockback(knockback)
+
+	if body is Player and body != self and _get_game_manager().get_player_with_potato() == self:
+		var game_manager = _get_game_manager()
+		game_manager.attach_potato_to_player(game_manager.active_potatoes[0], body)
+
+func _get_game_manager() -> GameManager:
+	return get_tree().current_scene as GameManager
