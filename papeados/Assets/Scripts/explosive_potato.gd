@@ -49,6 +49,16 @@ func attach_to_player(player: Player) -> void:
 	attached_player = player
 	global_position = player.global_position + attach_offset
 
+	player.set_can_transfer_potato(false)
+	
+	var game_manager = _get_game_manager()
+	
+	if game_manager and game_manager.potato_attach_timer:
+	
+		await get_tree().create_timer(game_manager.potato_attach_delay).timeout
+		if is_instance_valid(player):
+			player.set_can_transfer_potato(true)
+
 func _update_blink_speed() -> void:
 	var time_remaining = timer.time_left
 	

@@ -23,6 +23,7 @@ const FRICTION := 600.0
 var can_double_jump := true
 var can_dash := true
 var is_dashing := false
+var can_transfer_potato := false
 
 var action_left: String
 var action_right: String
@@ -123,13 +124,16 @@ func _update_animation() -> void:
 func apply_knockback(knockback_vector: Vector2) -> void:
 	velocity += knockback_vector
 
+func set_can_transfer_potato(value: bool) -> void:
+	can_transfer_potato = value
+
 func _on_area_2d_body_entered(body: Node) -> void:
 	if body is Player and body != self:
 		var direction = (body.global_position - global_position).normalized()
 		var knockback = direction * 300.0
 		body.apply_knockback(knockback)
 
-	if body is Player and body != self and _get_game_manager().get_player_with_potato() == self:
+	if body is Player and body != self and can_transfer_potato and _get_game_manager().get_player_with_potato() == self:
 		var game_manager = _get_game_manager()
 		game_manager.attach_potato_to_player(game_manager.active_potatoes[0], body)
 

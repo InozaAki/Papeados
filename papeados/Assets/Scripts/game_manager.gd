@@ -14,15 +14,22 @@ signal potato_spawned(potato: ExplosivePotato)
 @export var potato_spawn_interval := 15.0
 @export var potato_auto_spawn := true
 @export var potato_spawn_on_ready := true
+@export var potato_attach_delay := 1.0
 
 var players: Array[Player] = []
 var active_potatoes: Array[ExplosivePotato] = []
 var potato_spawn_timer: Timer
+var potato_attach_timer: Timer
 
 func _ready() -> void:
 	_initialize()
 
 func _initialize() -> void:
+
+	potato_attach_timer = Timer.new()
+	potato_attach_timer.wait_time = potato_attach_delay
+	add_child(potato_attach_timer)
+
 	_spawn_all_players()
 	_setup_potato_spawner()
 	
@@ -78,16 +85,29 @@ func attach_potato_to_player(potato: ExplosivePotato, player: Player) -> void:
 	potato.attach_to_player(player)
 
 func _on_potato_exploding(players_in_range: Array[Player], potato: ExplosivePotato) -> void:
-
+	# Eliminar todos los jugadores en el rango sin verificar condiciones de victoria
 	for p in players_in_range:
-		_eliminate_player(p)
+		if is_instance_valid(p):
+			players.erase(p)
+			p.queue_free()
 	
 	active_potatoes.erase(potato)
+
+	if players.size() == 0:
+		print("Tie game!")
+		game_ended.emit()
+	elif win_condition_met():
+		_end_game()
 
 func _eliminate_player(player: Player) -> void:
 	if is_instance_valid(player):
 		players.erase(player)
 		player.queue_free()
+
+		if players.size() == 0:
+			print("Tie game!")
+			return
+
 		if win_condition_met():
 			_end_game()
 
