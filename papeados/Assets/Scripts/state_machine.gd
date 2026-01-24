@@ -43,7 +43,11 @@ func _enter_state(state: GameState) -> void:
 				get_tree().call_deferred("change_scene_to_file", "res://Assets/Scenes/lobby.tscn")
 		GameState.IN_GAME:
 			print("Entering IN_GAME state")
-			get_tree().paused = false
+			get_tree().paused = false 
+            # Since we're loading the game scene for testing, we don't have to change the scene here.
+            # Remove once testing of the game flow is complete.
+            #if is_node_ready():
+                #get_tree().call_deferred("change_scene_to_file", "res://Assets/Scenes/game.tscn")
 		GameState.GAME_OVER:
 			print("Entering GAME_OVER state")
 			if pause_on_game_over:
