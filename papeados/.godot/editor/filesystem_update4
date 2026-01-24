@@ -2,3 +2,5 @@ res://Assets/Scripts/game_manager.gd
 res://Assets/Scripts/explosive_potato.gd
 res://Assets/Scripts/player.gd
 res://Assets/Scenes/first_map.tscn
+res://Assets/Scripts/state_machine.gd
+res://Assets/Scenes/game.tscn

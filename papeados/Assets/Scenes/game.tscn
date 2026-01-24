@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://du5rj3myyxqds"]
+[gd_scene load_steps=6 format=3 uid="uid://dhcxfygh143yt"]
 
 [ext_resource type="Script" uid="uid://bhyjhhs7s1g2v" path="res://Assets/Scripts/game_manager.gd" id="1_olm3b"]
 [ext_resource type="PackedScene" uid="uid://c6ey4rllf7h2q" path="res://Assets/Scenes/explosive_potato.tscn" id="2_e1lld"]

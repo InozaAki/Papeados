@@ -20,11 +20,16 @@ var players: Array[Player] = []
 var active_potatoes: Array[ExplosivePotato] = []
 var potato_spawn_timer: Timer
 var potato_attach_timer: Timer
+var state_machine: StateMachine
 
 func _ready() -> void:
 	_initialize()
 
 func _initialize() -> void:
+
+	state_machine = StateMachine.new()
+	state_machine.initial_state = StateMachine.GameState.IN_GAME
+	add_child(state_machine)
 
 	potato_attach_timer = Timer.new()
 	potato_attach_timer.wait_time = potato_attach_delay
@@ -85,7 +90,6 @@ func attach_potato_to_player(potato: ExplosivePotato, player: Player) -> void:
 	potato.attach_to_player(player)
 
 func _on_potato_exploding(players_in_range: Array[Player], potato: ExplosivePotato) -> void:
-	# Eliminar todos los jugadores en el rango sin verificar condiciones de victoria
 	for p in players_in_range:
 		if is_instance_valid(p):
 			players.erase(p)
