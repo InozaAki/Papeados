@@ -24,10 +24,10 @@ Este proyecto es desarrollado como parte del curso de **Videojuegos en Red** con
 
 ### Implementadas
 - [x] Movimiento de jugadores en 2D (Básico)
-- [ ] Sistema de colisiones
-- [ ] Temporizador regresivo
-- [ ] Transferencia de papa entre jugadores
-- [ ] Sistema de eliminación
+- [x] Sistema de colisiones
+- [x] Temporizador regresivo
+- [x] Transferencia de papa entre jugadores
+- [x] Sistema de eliminación
 
 ### En Desarrollo
 - [ ] Networking multijugador
