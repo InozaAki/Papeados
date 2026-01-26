@@ -9,6 +9,7 @@ signal potato_spawned(potato: ExplosivePotato)
 @export var player_scene: PackedScene
 @export var explosive_potato_scene: PackedScene
 @export var spawn_positions: Array[Vector2] = [Vector2(-200, 0), Vector2(200, 0)]
+@export var floating_text_scene: PackedScene
 
 @export_group("Potato Settings")
 @export var potato_spawn_interval := 15.0
@@ -92,9 +93,14 @@ func attach_potato_to_player(potato: ExplosivePotato, player: Player) -> void:
 func _on_potato_exploding(players_in_range: Array[Player], potato: ExplosivePotato) -> void:
 	for p in players_in_range:
 		if is_instance_valid(p):
+			var text := floating_text_scene.instantiate()
+			text.global_position = p.global_position + Vector2(0, -40)
+			add_child(text)
 			players.erase(p)
 			p.queue_free()
-	
+
+
+	await potato.audio.finished	
 	active_potatoes.erase(potato)
 
 	if players.size() == 0:
@@ -102,18 +108,6 @@ func _on_potato_exploding(players_in_range: Array[Player], potato: ExplosivePota
 		game_ended.emit()
 	elif win_condition_met():
 		_end_game()
-
-func _eliminate_player(player: Player) -> void:
-	if is_instance_valid(player):
-		players.erase(player)
-		player.queue_free()
-
-		if players.size() == 0:
-			print("Tie game!")
-			return
-
-		if win_condition_met():
-			_end_game()
 
 func _end_game() -> void:
 	print("Game Over! Player %d wins!" % players[0].player_id)

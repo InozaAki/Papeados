@@ -1,6 +1,6 @@
-res://Assets/Scripts/game_manager.gd
-res://Assets/Scripts/explosive_potato.gd
-res://Assets/Scripts/player.gd
-res://Assets/Scenes/first_map.tscn
-res://Assets/Scripts/state_machine.gd
 res://Assets/Scenes/game.tscn
+res://Assets/Scripts/explosive_potato.gd
+res://Assets/Scenes/explosive_potato.tscn
+res://Assets/Scripts/game_manager.gd
+res://Assets/Scenes/floating-text.tscn
+res://Assets/Scenes/floating_text.gd

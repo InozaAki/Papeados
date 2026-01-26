@@ -1,19 +1,28 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1769217383
+::res://::1769393944
+default_bus_layout.tres::AudioBusLayout::7364731840342538623::1769378235::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::1054917381745504061::1769119422::1769119431::1::::<><><>0<>0<>118e1af9c248a88e6797f53580b5ba59<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 ::res://Assets/::1769128759
-::res://Assets/Scenes/::1769206883
-explosive_potato.tscn::PackedScene::6958462937428621362::1769195784::0::1::::<><><>0<>0<><>::uid://cqew7xhtuf6c7::::res://Assets/Scripts/explosive_potato.gd<>uid://5e2mk42b1fob::::res://Assets/Sprites/papa-bomba.png
-first_map.tscn::PackedScene::8626020007798819952::1769206883::0::1::::<><><>0<>0<><>::uid://bhyjhhs7s1g2v::::res://Assets/Scripts/game_manager.gd<>uid://c6ey4rllf7h2q::::res://Assets/Scenes/explosive_potato.tscn<>uid://j41u1vbi1c4e::::res://Assets/Scenes/player.tscn<>uid://vukn3ut7mbeo::::res://Assets/Scripts/world_bounds.gd<>uid://b36ehksen7j5y::::res://Assets/Scripts/platformGenerator.gd
+::res://Assets/Scenes/::1769394791
+explosive_potato.tscn::PackedScene::6958462937428621362::1769394791::0::1::::<><><>0<>0<><>::uid://cqew7xhtuf6c7::::res://Assets/Scripts/explosive_potato.gd<>uid://5e2mk42b1fob::::res://Assets/Sprites/papa-bomba.png<>uid://bkibvaoo17blg::::res://Assets/Sounds/FX061.mp3<>uid://dtkxnq8c88lr5::::res://Assets/Sounds/explosion.wav
+game.tscn::PackedScene::7656119402039998235::1769394733::0::1::::<><><>0<>0<><>::uid://bhyjhhs7s1g2v::::res://Assets/Scripts/game_manager.gd<>uid://c6ey4rllf7h2q::::res://Assets/Scenes/explosive_potato.tscn<>uid://j41u1vbi1c4e::::res://Assets/Scenes/player.tscn<>uid://vukn3ut7mbeo::::res://Assets/Scripts/world_bounds.gd<>uid://b36ehksen7j5y::::res://Assets/Scripts/platformGenerator.gd
+game_over.tscn::PackedScene::5856271696444347146::1769220971::0::1::::<><><>0<>0<><>::
+lobby.tscn::PackedScene::8847567390072324895::1769220961::0::1::::<><><>0<>0<><>::
 main_menu.tscn::PackedScene::427541850981442688::1769135256::0::1::::<><><>0<>0<><>::
-player.tscn::PackedScene::693182303405198742::1769191476::0::1::::<><><>0<>0<><>::uid://br4dwbrs8eokr::::res://Assets/Scripts/player.gd<>uid://coxs3ira0qk3w::::res://Assets/Sprites/Old hero.png
-::res://Assets/Scripts/::1769197442
-explosive_potato.gd::GDScript::5905514515597694696::1769207738::0::1::::ExplosivePotato<>Node2D<><>0<>0<><>::
-game_manager.gd::GDScript::2927847005697942707::1769208168::0::1::::GameManager<>Node<><>0<>0<><>::
+player.tscn::PackedScene::693182303405198742::1769378632::0::1::::<><><>0<>0<><>::uid://br4dwbrs8eokr::::res://Assets/Scripts/player.gd<>uid://coxs3ira0qk3w::::res://Assets/Sprites/Old hero.png<>uid://ij2u5mblkjw8::::res://Assets/Sounds/SFX_Jump.wav
+::res://Assets/Scripts/::1769394791
+explosive_potato.gd::GDScript::5905514515597694696::1769394791::0::1::::ExplosivePotato<>Node2D<><>0<>0<><>::
+game_manager.gd::GDScript::2927847005697942707::1769221446::0::1::::GameManager<>Node<><>0<>0<><>::
 platformGenerator.gd::GDScript::4415959937702625160::1769195202::0::1::::<>Node2D<><>0<>0<><>::
-player.gd::GDScript::3639719498498727885::1769206839::0::1::::Player<>CharacterBody2D<><>0<>0<><>::
+player.gd::GDScript::3639719498498727885::1769378632::0::1::::Player<>CharacterBody2D<><>0<>0<><>::
+state_machine.gd::GDScript::2985512408159197389::1769221848::0::1::::StateMachine<>Node<><>0<>0<><>::
 world_bounds.gd::GDScript::1515885159184704986::1769139237::0::1::::<>Node2D<><>0<>0<><>::
-::res://Assets/Sounds/::1769128754
+::res://Assets/Sounds/::1769394890
+countdown-a.ogg::AudioStreamOggVorbis::8506051806800044662::1769394832::1769394832::1::::<><><>0<>0<>0aa9ba0cfc2afddf8ce3df2629aab8a0<>res://.godot/imported/countdown-a.ogg-eb4e3ec03447cd7dab3be32a79f3eb2e.oggvorbisstr::
+countdown-b.ogg::AudioStreamOggVorbis::4313579381560617817::1769394890::1769394890::1::::<><><>0<>0<>2606604c75e88defd2a578ef41f9e982<>res://.godot/imported/countdown-b.ogg-fff5175da8200090fe6a0916dd9aa4f6.oggvorbisstr::
+explosion.wav::AudioStreamWAV::8514914455385336868::1769379068::1769379217::1::::<><><>0<>0<>a64ce002b8e9a9edc297c83410b087a4<>res://.godot/imported/explosion.wav-bc16692f24ce8829345116ef70c39dbd.sample::
+FX061.mp3::AudioStreamMP3::3104922383070034144::1769394616::1769394617::1::::<><><>0<>0<>b84fed3e4b5470d21370eaea8932ed4e<>res://.godot/imported/FX061.mp3-14e7dab478984763a2ec338560c9cd20.mp3str::
+SFX_Jump.wav::AudioStreamWAV::581766817872286161::1415004781::1769378177::1::::<><><>0<>0<>3849095437db01d044febc37af14b9bd<>res://.godot/imported/SFX_Jump.wav-582fa475809ea1f29059647822ce68af.sample::
 ::res://Assets/Sprites/::1769195131
 Old hero.png::CompressedTexture2D::5804109221243689798::1769184990::1769185000::1::::<><><>0<>0<>46896a404109a8345e4de4a2531533f9<>res://.godot/imported/Old hero.png-5ad13ebae6c18c43ada4473e9e41bc8c.ctex::
 papa-bomba.png::CompressedTexture2D::2115584179750714353::1769195126::1769195131::1::::<><><>0<>0<>27bc948f0e24a8313b0f4c2e1b1d6dcb<>res://.godot/imported/papa-bomba.png-eb28c80160c089505a4919a8184a9d92.ctex::

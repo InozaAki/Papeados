@@ -3,6 +3,8 @@ class_name ExplosivePotato
 
 signal exploding(players_in_range: Array[Player])
 
+var has_exploded := false
+
 @export_group("Explosion Settings")
 @export var explosion_timer := 10.0
 @export var explosion_radius := 200.0
@@ -19,6 +21,14 @@ signal exploding(players_in_range: Array[Player])
 @onready var timer: Timer = Timer.new()
 @onready var blink_timer: Timer = Timer.new()
 
+@export_group("Sounds")
+@export var explosion_sound : AudioStreamWAV
+@export var attach_sound : AudioStreamMP3
+@export var warning_sound_a : AudioStreamOggVorbis
+@export var warning_sound_b : AudioStreamOggVorbis
+
+@onready var audio = $AudioStreamPlayer2D
+
 var attached_player: Player = null
 var is_visible_state := true
 
@@ -29,6 +39,25 @@ func _process(_delta: float) -> void:
 	if attached_player and is_instance_valid(attached_player):
 		global_position = attached_player.global_position + attach_offset
 	_update_blink_speed()
+	countdown_sound()
+
+func countdown_sound() -> void:
+
+	if has_exploded:
+		return
+
+	var time_remaining = get_time_remaining()
+
+	if time_remaining <= warning_threshold:
+		if int(time_remaining) % 2 != 0:
+			if audio.stream != warning_sound_a:
+				audio.stream = warning_sound_a
+				audio.play()
+		else:
+			if audio.stream != warning_sound_b:
+				audio.stream = warning_sound_b
+				audio.play()
+
 
 func _setup_timers() -> void:
 	timer.wait_time = explosion_timer
@@ -41,6 +70,7 @@ func _setup_timers() -> void:
 	blink_timer.timeout.connect(_toggle_visibility)
 	add_child(blink_timer)
 	blink_timer.start()
+	has_exploded = false
 
 func attach_to_player(player: Player) -> void:
 	if not is_instance_valid(player):
@@ -48,7 +78,10 @@ func attach_to_player(player: Player) -> void:
 	
 	attached_player = player
 	global_position = player.global_position + attach_offset
-
+	
+	audio.stream = attach_sound
+	audio.play()
+	
 	player.set_can_transfer_potato(false)
 	
 	var game_manager = _get_game_manager()
@@ -61,7 +94,7 @@ func attach_to_player(player: Player) -> void:
 
 func _update_blink_speed() -> void:
 	var time_remaining = timer.time_left
-	
+
 	if time_remaining <= warning_threshold:
 		var new_speed = lerp(0.05, blink_speed, time_remaining / warning_threshold)
 		if blink_timer.wait_time != new_speed:
@@ -73,12 +106,20 @@ func _toggle_visibility() -> void:
 	animated_sprite.visible = is_visible_state
 
 func _explode() -> void:
+	has_exploded = true
+
+	audio.stream = explosion_sound
+	audio.play()
+	
 	var players_in_range := _get_players_in_radius()
 	
 	for player in players_in_range:
 		_apply_knockback(player)
 	
 	exploding.emit(players_in_range)
+	
+	await audio.finished
+	
 	queue_free()
 
 func _get_players_in_radius() -> Array[Player]:

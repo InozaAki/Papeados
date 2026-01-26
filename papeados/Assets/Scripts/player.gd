@@ -20,6 +20,11 @@ const FRICTION := 600.0
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_area: Area2D = $Area2D
 
+@export var jump_audio : AudioStreamWAV
+
+@onready var audio = $AudioStreamPlayer2D
+
+
 var can_double_jump := true
 var can_dash := true
 var is_dashing := false
@@ -83,12 +88,16 @@ func _handle_jump() -> void:
 	
 	if is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		audio.stream = jump_audio;
+		audio.play();
 		return
 	
 	if not is_on_floor() and velocity.y > 0 and can_double_jump:
 		can_double_jump = false
 		velocity.y = JUMP_VELOCITY
-
+		audio.stream = jump_audio;
+		audio.play();
+	
 func _handle_dash() -> void:
 	if Input.is_action_just_pressed(action_dash) and can_dash:
 		var input_vector := get_input_vector()

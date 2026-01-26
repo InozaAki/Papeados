@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://j41u1vbi1c4e"]
+[gd_scene load_steps=20 format=3 uid="uid://j41u1vbi1c4e"]
 
 [ext_resource type="Script" uid="uid://br4dwbrs8eokr" path="res://Assets/Scripts/player.gd" id="1_7dd06"]
 [ext_resource type="Texture2D" uid="uid://coxs3ira0qk3w" path="res://Assets/Sprites/Old hero.png" id="2_38rej"]
+[ext_resource type="AudioStream" uid="uid://ij2u5mblkjw8" path="res://Assets/Sounds/SFX_Jump.wav" id="3_38rej"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bkydc"]
 atlas = ExtResource("2_38rej")
@@ -126,6 +127,7 @@ size = Vector2(11, 16)
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(2, 2)
 script = ExtResource("1_7dd06")
+jump_audio = ExtResource("3_38rej")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2t2sq")
@@ -140,3 +142,6 @@ shape = SubResource("RectangleShape2D_2t2sq")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_7dd06")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_38rej")
