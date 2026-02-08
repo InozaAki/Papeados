@@ -3,7 +3,6 @@ class_name Player
 
 const SPEED := 300.0
 const JUMP_VELOCITY := -400.0
-const GRAVITY := 900.0
 const MAX_FALL_SPEED := 900.0
 const ACCELERATION := 800.0
 const FRICTION := 600.0
@@ -30,6 +29,9 @@ var can_dash := true
 var is_dashing := false
 var can_transfer_potato := false
 
+var gravity_dir := 1 # 1 for normal gravity, -1 for inverted gravity
+var inverted := false
+
 var action_left: String
 var action_right: String
 var action_jump: String
@@ -38,6 +40,7 @@ var action_dash: String
 func _ready() -> void:
 	_setup_input_actions()
 	collision_area.body_entered.connect(_on_area_2d_body_entered)
+	add_to_group("players")
 
 func _physics_process(delta: float) -> void:
 	_apply_gravity(delta)
@@ -63,13 +66,21 @@ func get_input_vector() -> Vector2:
 	var x_input := Input.get_axis(action_left, action_right)
 	return Vector2(x_input, 0.0)
 
+func force_leave_floor():
+	floor_snap_length = 0.0
+
 func _apply_gravity(delta: float) -> void:
 	if not is_on_floor():
-		velocity.y += GRAVITY * delta
+		velocity.y += GravityManager.get_gravity() * delta * gravity_dir
 		velocity.y = min(velocity.y, MAX_FALL_SPEED)
 	else:
 		can_double_jump = true
 		velocity.y = 0.0
+
+func set_gravity_inverted(inverted_state: bool) -> void:
+	inverted = inverted_state
+	gravity_dir = -1 if inverted else 1
+	animated_sprite.flip_v = inverted
 
 func _handle_horizontal_movement(delta: float) -> void:
 	var input_x := get_input_vector().x
@@ -85,19 +96,21 @@ func _handle_horizontal_movement(delta: float) -> void:
 func _handle_jump() -> void:
 	if not Input.is_action_just_pressed(action_jump):
 		return
-	
-	if is_on_floor():
-		velocity.y = JUMP_VELOCITY
-		audio.stream = jump_audio;
-		audio.play();
+
+	if is_on_floor() or (gravity_dir == -1 and is_on_ceiling()):
+		velocity.y = JUMP_VELOCITY * gravity_dir
+		_play_jump_sound()
 		return
-	
-	if not is_on_floor() and velocity.y > 0 and can_double_jump:
+
+	if can_double_jump and velocity.y * gravity_dir > 0:
 		can_double_jump = false
-		velocity.y = JUMP_VELOCITY
-		audio.stream = jump_audio;
-		audio.play();
-	
+		velocity.y = JUMP_VELOCITY * gravity_dir
+		_play_jump_sound()
+
+func _play_jump_sound() -> void:
+	audio.stream = jump_audio
+	audio.play()
+
 func _handle_dash() -> void:
 	if Input.is_action_just_pressed(action_dash) and can_dash:
 		var input_vector := get_input_vector()

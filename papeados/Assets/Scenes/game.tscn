@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dhcxfygh143yt"]
+[gd_scene format=3 uid="uid://dhcxfygh143yt"]
 
 [ext_resource type="Script" uid="uid://bhyjhhs7s1g2v" path="res://Assets/Scripts/game_manager.gd" id="1_olm3b"]
 [ext_resource type="PackedScene" uid="uid://c6ey4rllf7h2q" path="res://Assets/Scenes/explosive_potato.tscn" id="2_e1lld"]
@@ -6,19 +6,27 @@
 [ext_resource type="Script" uid="uid://vukn3ut7mbeo" path="res://Assets/Scripts/world_bounds.gd" id="2_ipktb"]
 [ext_resource type="Script" uid="uid://b36ehksen7j5y" path="res://Assets/Scripts/platformGenerator.gd" id="3_2t2sq"]
 [ext_resource type="PackedScene" uid="uid://cn4fvfkn0j8u1" path="res://Assets/Scenes/floating-text.tscn" id="4_iusbg"]
+[ext_resource type="PackedScene" uid="uid://c1rju3yypxytd" path="res://Assets/Scenes/launch_platform.tscn" id="7_of3jj"]
+[ext_resource type="PackedScene" uid="uid://5qsucu5ce3ry" path="res://Assets/Scenes/gravity_switch.tscn" id="8_fw1vi"]
 
-[node name="FirstMap" type="Node2D"]
+[node name="FirstMap" type="Node2D" unique_id=1659612835]
 script = ExtResource("1_olm3b")
 player_scene = ExtResource("2_hvjim")
 explosive_potato_scene = ExtResource("2_e1lld")
 spawn_positions = Array[Vector2]([Vector2(-200, 0), Vector2(-300, 0), Vector2(200, 0)])
 floating_text_scene = ExtResource("4_iusbg")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1488666969]
 
-[node name="World" type="Node2D" parent="."]
+[node name="World" type="Node2D" parent="." unique_id=593333868]
 script = ExtResource("2_ipktb")
 arena_height = 500
 
-[node name="Platforms" type="Node2D" parent="World"]
+[node name="Platforms" type="Node2D" parent="World" unique_id=1210906099]
 script = ExtResource("3_2t2sq")
+
+[node name="LaunchPlatform" parent="." unique_id=410638877 instance=ExtResource("7_of3jj")]
+position = Vector2(-361, 227)
+rotation = 0.8290314
+
+[node name="GravitySwitch" parent="." unique_id=975143505 instance=ExtResource("8_fw1vi")]
