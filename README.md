@@ -188,7 +188,7 @@ git checkout -b fix/collision-bug
 
 ## Equipo
 
-### --------
+### Jonatan Godinez Flores
 **Rol**: Programador de Red  
 **Responsabilidades**: Networking, sincronización, lobby  
 [![GitHub](https://img.shields.io/badge/GitHub-Profile-blue?logo=github)](https://github.com/)
