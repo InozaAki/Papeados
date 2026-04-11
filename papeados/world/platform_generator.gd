@@ -1,5 +1,6 @@
 extends Node2D
 
+var texture_plataforma_neon = preload("res://scenes/borde.png")
 @export_group("Arena Settings")
 @export var arena_width := 800
 @export var arena_height := 600
@@ -119,22 +120,21 @@ func create_platform(pos: Vector2, width: float):
 	})
 
 func add_platform_visual(platform: StaticBody2D, width: float):
-	var visual = ColorRect.new()
+	var visual = Panel.new()
+	var sb = StyleBoxFlat.new()
+	
+	sb.bg_color = Color(0.15, 0.15, 0.15, 1.0) 
+	sb.border_color = Color(1.0, 0.0, 1.0, 1.0) 
+	
+	sb.border_width_left = 2
+	sb.border_width_top = 2
+	sb.border_width_right = 2
+	sb.border_width_bottom = 2
+	
+	visual.add_theme_stylebox_override("panel", sb)
 	visual.size = Vector2(width, platform_thickness)
 	visual.position = Vector2(-width / 2, -platform_thickness / 2)
-	visual.color = platform_color
 	platform.add_child(visual)
-	
-	if add_outline:
-		var outline = Line2D.new()
-		outline.width = 2
-		outline.default_color = Color.WHITE
-		outline.add_point(Vector2(-width / 2, -platform_thickness / 2))
-		outline.add_point(Vector2(width / 2, -platform_thickness / 2))
-		outline.add_point(Vector2(width / 2, platform_thickness / 2))
-		outline.add_point(Vector2(-width / 2, platform_thickness / 2))
-		outline.add_point(Vector2(-width / 2, -platform_thickness / 2))
-		platform.add_child(outline)
 
 func regenerate():
 	generate_platforms()
