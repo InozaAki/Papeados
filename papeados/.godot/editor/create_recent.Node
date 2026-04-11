@@ -1,3 +1,4 @@
+Node
 Panel
 TextureRect
 CanvasLayer
@@ -6,10 +7,8 @@ HBoxContainer
 LineEdit
 VBoxContainer
 Button
-Node
 Camera2D
 Control
 CenterContainer
 MarginContainer
 MultiplayerSynchronizer
-AudioStreamPlayer2D

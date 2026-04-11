@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://coxs3ira0qk3w" path="res://assets/sprites/Old hero.png" id="2_38rej"]
 [ext_resource type="AudioStream" uid="uid://ij2u5mblkjw8" path="res://assets/sounds/SFX_Jump.wav" id="3_38rej"]
 
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_bkydc"]
 atlas = ExtResource("2_38rej")
 region = Rect2(32, 48, 16, 16)
@@ -130,6 +129,7 @@ size = Vector2(11, 16)
 [node name="Player" type="CharacterBody2D" unique_id=832690648]
 scale = Vector2(2, 2)
 script = ExtResource("1_7dd06")
+dash_duration = 0.3
 jump_audio = ExtResource("3_38rej")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=960246638]

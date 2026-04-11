@@ -9,13 +9,13 @@ func _ready() -> void:
 	create_walls()
 
 func create_walls():
-	# Floor - Alargado y centrado
+	# Floor
 	create_wall(
 		Vector2(0, arena_height / 2),
 		Vector2(arena_width + boundary_thickness, boundary_thickness)
 	)
 
-	# Top - Alargado y centrado
+	# Top
 	create_wall(
 		Vector2(0, -arena_height / 2),
 		Vector2(arena_width + boundary_thickness, boundary_thickness)

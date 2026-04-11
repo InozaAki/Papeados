@@ -10,10 +10,18 @@
 [ext_resource type="Script" uid="uid://dmssb76jls2xa" path="res://gameplay/round_manager.gd" id="7_choun"]
 [ext_resource type="Script" uid="uid://dfok48u3r818n" path="res://gameplay/score_manager.gd" id="8_ya4ey"]
 [ext_resource type="Script" uid="uid://dx4cddxmgcad8" path="res://gameplay/potato_manager.gd" id="9_eb6dy"]
+[ext_resource type="Script" uid="uid://bi2n7cq6y81nh" path="res://ui/ui_manager.gd" id="9_trceg"]
 [ext_resource type="Texture2D" uid="uid://dd5lsq8m6dafy" path="res://scenes/fondo.png" id="11_ya4ey"]
 
 [node name="GameManager" type="Node" unique_id=176361699]
 script = ExtResource("1_85g3d")
+
+[node name="Arena" type="Node2D" parent="." unique_id=2140676501]
+script = ExtResource("5_choun")
+arena_height = 500
+
+[node name="Platforms" type="Node2D" parent="." unique_id=465749731]
+script = ExtResource("6_ya4ey")
 
 [node name="PlayerManager" type="Node" parent="." unique_id=839157539]
 script = ExtResource("6_85g3d")
@@ -30,17 +38,16 @@ script = ExtResource("9_eb6dy")
 explosive_potato_scene = ExtResource("3_tipki")
 floating_text_scene = ExtResource("4_85g3d")
 
+[node name="UIManager" type="Node" parent="." unique_id=883712495 node_paths=PackedStringArray("round_label", "players_label")]
+script = ExtResource("9_trceg")
+round_label = NodePath("../HUD/Control/Rondas/HBoxContainer/Label")
+players_label = NodePath("../HUD/Control/Puntajes/HBoxContainer/Label")
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1710669209]
-
-[node name="World" type="Node2D" parent="." unique_id=2140676501]
-script = ExtResource("5_choun")
-arena_height = 500
-
-[node name="Platforms" type="Node2D" parent="World" unique_id=465749731]
-script = ExtResource("6_ya4ey")
 
 [node name="FondoEscenario" type="CanvasLayer" parent="." unique_id=983783477]
 layer = -1
+visible = false
 
 [node name="TextureRect" type="TextureRect" parent="FondoEscenario" unique_id=1190955086]
 anchors_preset = 15
@@ -51,3 +58,50 @@ grow_vertical = 2
 texture = ExtResource("11_ya4ey")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=313668401]
+
+[node name="Control" type="Control" parent="HUD" unique_id=1445574471]
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Rondas" type="MarginContainer" parent="HUD/Control" unique_id=466201899]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -104.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Control/Rondas" unique_id=234982873]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUD/Control/Rondas/HBoxContainer" unique_id=1882536387]
+layout_mode = 2
+text = "Ronda: 1 de 3"
+
+[node name="Puntajes" type="MarginContainer" parent="HUD/Control" unique_id=1834680435]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.21604939
+anchor_right = 0.06857639
+anchor_bottom = 0.69753087
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Control/Puntajes" unique_id=1421084631]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HUD/Control/Puntajes/HBoxContainer" unique_id=114798847]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+text = "InozaAki
+Bjma21
+Jonatan04"

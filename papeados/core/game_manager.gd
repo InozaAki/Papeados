@@ -11,6 +11,9 @@ signal game_ended
 @onready var round_manager: RoundManager = $RoundManager
 @onready var score_manager: ScoreManager = $ScoreManager
 
+# UI Module
+@onready var ui_manager: UIManager = $UIManager
+
 # Initialization
 func _ready() -> void:
 	if multiplayer.is_server():
@@ -25,20 +28,16 @@ It connects necessary signals, spawns the host player, initializes the score man
 '''
 func _initialize_server() -> void:
 	print("[GameManager] === Inicializando SERVIDOR ===")
-
+ 
 	_connect_signals()
-
-	multiplayer.peer_connected.connect(_on_peer_connected)
+ 
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
-	# Host spawn
 	player_manager.spawn_player(1)
-
 	score_manager.initialize(player_manager.get_all_peer_ids())
 	round_manager.start_round(player_manager)
-
+ 
 	game_started.emit()
-
 
 
 '''
@@ -72,21 +71,23 @@ including existing players and the active potato if there is one.
 func _client_ready_rpc() -> void:
 	if not multiplayer.is_server():
 		return
-
-	var peer_id = multiplayer.get_remote_sender_id()
-	print("[GameManager] Cliente %d listo." % peer_id)
-
+ 
+	var new_peer_id = multiplayer.get_remote_sender_id()
+	print("[GameManager] Cliente %d listo en escena." % new_peer_id)
+ 
 	for existing_id in player_manager.get_all_peer_ids():
 		player_manager._spawn_player_on_clients.rpc_id(
-			peer_id, existing_id, player_manager.get_player_position(existing_id)
+			new_peer_id, existing_id, player_manager.get_player_position(existing_id)
 		)
-
+ 
+	player_manager.spawn_player(new_peer_id)
+	score_manager.register_player(new_peer_id)
+ 
 	if not potato_manager.has_active_potato():
 		await get_tree().create_timer(2.0).timeout
 		var target = player_manager.get_random_alive_player()
 		if target:
 			potato_manager.spawn_potato_on_player(target, player_manager)
-
 
 '''
 Connects a new player to the game by spawning their player instance and registering them in the score manager.
@@ -143,17 +144,17 @@ Args:
 func _on_players_affected_by_explosion(affected_peer_ids: Array[int]) -> void:
 	if not multiplayer.is_server():
 		return
-
+ 
 	print("[GameManager] Procesando explosión. Afectados: %s" % str(affected_peer_ids))
-
-	_handle_explosion_on_clients.rpc(affected_peer_ids)
-
+ 
 	for peer_id in affected_peer_ids:
 		round_manager.register_death(peer_id, player_manager)
-
+ 
 	for peer_id in player_manager.get_alive_peer_ids():
-		score_manager.add_score(peer_id)
+		score_manager.add_score(peer_id) 
 
+	_handle_explosion_on_clients.rpc(affected_peer_ids)
+ 
 	await get_tree().create_timer(1.0).timeout
 	round_manager.check_round_end(player_manager, score_manager, potato_manager)
 
