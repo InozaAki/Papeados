@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dhcxfygh143yt"]
 
 [ext_resource type="Script" uid="uid://bhyjhhs7s1g2v" path="res://core/game_manager.gd" id="1_85g3d"]
+[ext_resource type="Script" uid="uid://bnu7eim07dvx8" path="res://core/game_state_machine.gd" id="2_trceg"]
 [ext_resource type="PackedScene" uid="uid://j41u1vbi1c4e" path="res://player/player.tscn" id="3_choun"]
 [ext_resource type="PackedScene" uid="uid://c6ey4rllf7h2q" path="res://potato/explosive_potato.tscn" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://cn4fvfkn0j8u1" path="res://ui/floating_text/floating-text.tscn" id="4_85g3d"]
@@ -11,10 +12,14 @@
 [ext_resource type="Script" uid="uid://dfok48u3r818n" path="res://gameplay/score_manager.gd" id="8_ya4ey"]
 [ext_resource type="Script" uid="uid://dx4cddxmgcad8" path="res://gameplay/potato_manager.gd" id="9_eb6dy"]
 [ext_resource type="Script" uid="uid://bi2n7cq6y81nh" path="res://ui/ui_manager.gd" id="9_trceg"]
-[ext_resource type="Texture2D" uid="uid://dd5lsq8m6dafy" path="res://scenes/fondo.png" id="11_ya4ey"]
+[ext_resource type="Texture2D" uid="uid://bto1ws2nrfwml" path="res://assets/background/back.png" id="13_trceg"]
+[ext_resource type="PackedScene" uid="uid://c1rju3yypxytd" path="res://world/platforms/launch_platform.tscn" id="14_a8y0u"]
 
 [node name="GameManager" type="Node" unique_id=176361699]
 script = ExtResource("1_85g3d")
+
+[node name="StateMachine" type="Node" parent="." unique_id=2064215888]
+script = ExtResource("2_trceg")
 
 [node name="Arena" type="Node2D" parent="." unique_id=2140676501]
 script = ExtResource("5_choun")
@@ -47,7 +52,6 @@ players_label = NodePath("../HUD/Control/Puntajes/HBoxContainer/Label")
 
 [node name="FondoEscenario" type="CanvasLayer" parent="." unique_id=983783477]
 layer = -1
-visible = false
 
 [node name="TextureRect" type="TextureRect" parent="FondoEscenario" unique_id=1190955086]
 anchors_preset = 15
@@ -55,7 +59,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("11_ya4ey")
+texture = ExtResource("13_trceg")
 expand_mode = 1
 stretch_mode = 6
 
@@ -105,3 +109,13 @@ size_flags_vertical = 1
 text = "InozaAki
 Bjma21
 Jonatan04"
+
+[node name="LaunchPlatform" parent="." unique_id=410638877 instance=ExtResource("14_a8y0u")]
+position = Vector2(-363, 222.00002)
+rotation = 0.80285144
+scale = Vector2(2, 2)
+
+[node name="LaunchPlatform2" parent="." unique_id=1546859248 instance=ExtResource("14_a8y0u")]
+position = Vector2(366, 221.99998)
+rotation = -0.80285144
+scale = Vector2(2, 2)

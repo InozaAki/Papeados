@@ -11,6 +11,9 @@ signal game_ended
 @onready var round_manager: RoundManager = $RoundManager
 @onready var score_manager: ScoreManager = $ScoreManager
 
+# Game state machine
+@onready var state_machine: GameStateMachine = $StateMachine
+
 # UI Module
 @onready var ui_manager: UIManager = $UIManager
 
@@ -33,8 +36,12 @@ func _initialize_server() -> void:
  
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
+	state_machine.setup(self)
+
 	player_manager.spawn_player(1)
 	score_manager.initialize(player_manager.get_all_peer_ids())
+
+	state_machine.on_game_started()
 	round_manager.start_round(player_manager)
  
 	game_started.emit()
@@ -48,6 +55,7 @@ indicate that the client is ready to receive the current game state, including e
 '''
 func _initialize_client() -> void:
 	print("[GameManager] === Inicializando CLIENTE ===")
+	state_machine.setup(self)
 	call_deferred("_request_game_state")
 
 '''
@@ -55,8 +63,30 @@ Helper method to connect signals from the PotatoManager and RoundManager to the 
 '''
 func _connect_signals() -> void:
 	potato_manager.players_affected_by_explosion.connect(_on_players_affected_by_explosion)
+	
 	round_manager.all_rounds_completed.connect(_on_all_rounds_completed)
 	round_manager.round_ready_to_spawn.connect(_on_round_ready_to_spawn)
+	
+	round_manager.round_started.connect(_on_round_started)
+	round_manager.round_ended.connect(_on_round_ended)
+	
+	state_machine.state_changed.connect(_on_state_changed)
+	
+func _on_state_changed(_old_state: GameStateMachine.GameState, new_state: GameStateMachine.GameState) -> void:
+	if multiplayer.is_server():
+		_sync_state.rpc(new_state)
+
+@rpc("authority", "reliable")
+func _sync_state(new_state: GameStateMachine.GameState) -> void:
+	if multiplayer.is_server():
+		return
+	state_machine.change_state(new_state)
+  
+func _on_round_started(_round_number: int, _rounds_to_win: int) -> void:
+	state_machine.on_round_started()
+ 
+func _on_round_ended(_survivor: int) -> void:
+	state_machine.on_round_ended()
 
 func _request_game_state() -> void:
 	_client_ready_rpc.rpc_id(1)
@@ -82,12 +112,6 @@ func _client_ready_rpc() -> void:
  
 	player_manager.spawn_player(new_peer_id)
 	score_manager.register_player(new_peer_id)
- 
-	if not potato_manager.has_active_potato():
-		await get_tree().create_timer(2.0).timeout
-		var target = player_manager.get_random_alive_player()
-		if target:
-			potato_manager.spawn_potato_on_player(target, player_manager)
 
 '''
 Connects a new player to the game by spawning their player instance and registering them in the score manager.
@@ -176,9 +200,14 @@ func _handle_explosion_on_clients(affected_peer_ids: Array[int]) -> void:
 
 		# Texto flotante
 		if potato_manager.floating_text_scene:
+			
 			var text = potato_manager.floating_text_scene.instantiate()
+			
 			text.global_position = player.global_position + Vector2(0, -40)
+			
 			add_child(text)
+			
+			text._create_text("PAPEADO")
 
 		player_manager.remove_player(peer_id)
 
@@ -197,7 +226,7 @@ func _on_all_rounds_completed(winner_peer_id: int) -> void:
 	])
 
 	potato_manager.stop_all_potatoes()
-
+	state_machine.on_game_over()
 	_announce_winner.rpc(winner_peer_id, score_manager.get_score(winner_peer_id))
 
 
@@ -229,6 +258,36 @@ args:
 func _announce_winner(winner_peer_id: int, final_score: int) -> void:
 	print("[GameManager] ¡El ganador es Jugador %d con %d puntos!" % [winner_peer_id, final_score])
 	game_ended.emit()
+
+
+func request_restart() -> void:
+	if not multiplayer.is_server():
+		_request_restart_rpc.rpc_id(1)
+	else:
+		_do_restart()
+ 
+ 
+@rpc("any_peer", "reliable")
+func _request_restart_rpc() -> void:
+	if not multiplayer.is_server():
+		return
+	_do_restart()
+ 
+ 
+func _do_restart() -> void:
+	print("[GameManager] Reiniciando partida...")
+	
+	potato_manager.stop_all_potatoes()
+	score_manager.initialize(player_manager.get_all_peer_ids())
+	round_manager.round_number = 0
+	round_manager.round_in_progress = false
+	round_manager.players_dead_this_round.clear()
+	
+	for peer_id in player_manager.get_all_peer_ids():
+		player_manager.respawn_player(peer_id)
+		
+	state_machine.on_game_started()
+	round_manager.start_round(player_manager)
 
 
 '''

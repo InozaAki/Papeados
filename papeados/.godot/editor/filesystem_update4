@@ -1,10 +1,4 @@
-res://core/game_manager.gd
-res://multiplayer/lobby/lobby.tscn
-res://ui/hud/game_hud.tscn
 res://scenes/main.tscn
-res://ui/ui_manager.gd
-res://gameplay/round_manager.gd
-res://player/player.gd
-res://world/platform_generator.gd
-res://world/world_bounds.gd
 res://player/player.tscn
+res://player/player.gd
+res://world/platforms/launch_platform.tscn

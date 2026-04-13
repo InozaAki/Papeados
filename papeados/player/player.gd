@@ -47,7 +47,9 @@ const FRICTION := 600.0
 # ========================================
 # AUDIO
 # ========================================
+@export_group("Audio Settings")
 @export var jump_audio : AudioStreamWAV
+@export var collision_sound : AudioStreamWAV
 
 # ========================================
 # VARIABLES DE GAMEPLAY
@@ -95,16 +97,13 @@ func _ready() -> void:
 	target_velocity = velocity
 
 func _setup_network() -> void:
-	# Configurar autoridad del MultiplayerSynchronizer
 	if sync:
 		sync.set_multiplayer_authority(get_multiplayer_authority())
-	
-	# Configurar callbacks de red
+ 
 	if multiplayer.is_server():
 		print("Jugador %d inicializado en servidor" % player_id)
 	else:
 		print("Jugador %d inicializado en cliente" % player_id)
-
 # ========================================
 # PHYSICS PROCESS
 # ========================================
@@ -124,6 +123,10 @@ func _physics_process(delta: float) -> void:
 		# CLIENTE REMOTO: Interpolar hacia la posición recibida
 		_interpolate_position(delta)
 		_update_animation()
+
+func force_leave_floor():
+	floor_snap_length = 0.0
+
 
 # ========================================
 # ACTUALIZACIÓN DE RED (Solo cliente local)
@@ -259,6 +262,10 @@ func _notify_jump() -> void:
 	audio.stream = jump_audio
 	audio.play()
 
+func _play_collision_sound() -> void:
+	audio.stream = collision_sound
+	audio.play()
+
 # ========================================
 # DASH (Con sincronización RPC)
 # ========================================
@@ -315,6 +322,7 @@ func _update_animation() -> void:
 # KNOCKBACK
 # ========================================
 func apply_knockback(knockback_vector: Vector2) -> void:
+	_play_collision_sound()
 	if is_multiplayer_authority():
 		velocity += knockback_vector
 	else:

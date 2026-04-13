@@ -118,12 +118,12 @@ func _on_salir_pressed():
 	get_tree().change_scene_to_file("res://ui/menus/main_menu.tscn")
 
 func _change_scene_to_main_server():
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	LoadingScreenScript.load_scene("res://scenes/main.tscn")
 
 @rpc("authority", "reliable", "call_local")
 func _change_scene_to_main_clients():
 	if not multiplayer.is_server():
-		get_tree().change_scene_to_file("res://scenes/main.tscn")
+		LoadingScreenScript.load_scene("res://scenes/main.tscn")
 
 func _actualizar_lista_visual():
 	for hijo in $ListaJugadores.get_children():
