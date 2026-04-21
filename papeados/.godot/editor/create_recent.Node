@@ -1,9 +1,20 @@
+<<<<<<< HEAD
+Sprite2D
+AudioStreamPlayer
 BoxContainer
+=======
+PanelContainer
+HBoxContainer
+Control
+WorldEnvironment
+>>>>>>> bd7c4163ffb8d2a709a979655f6aceee96cf89dc
 Button
 Label
+TextureRect
+BoxContainer
 Panel
 CanvasLayer
-Sprite2D
+<<<<<<< HEAD
 TextureRect
 Node
 HSplitContainer
@@ -11,4 +22,9 @@ HFlowContainer
 HBoxContainer
 ProgressBar
 Control
-LineEdit
+=======
+Sprite2D
+Node
+HSplitContainer
+HFlowContainer
+>>>>>>> bd7c4163ffb8d2a709a979655f6aceee96cf89dc

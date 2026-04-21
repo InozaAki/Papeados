@@ -4,6 +4,7 @@ extends Node2D
 @export var arena_height := 600
 @export var boundary_thickness := 20
 
+@export var arena_texture : Texture2D
 
 func _ready() -> void:
 	create_walls()
@@ -43,15 +44,14 @@ func create_wall(pos: Vector2, size: Vector2) -> void:
 	wall.add_child(collision_shape)
 	add_child(wall)
 
+
 	var visual = Panel.new()
-	var sb = StyleBoxFlat.new()
-	sb.bg_color = Color(0.15, 0.15, 0.15, 1.0) 
-	sb.border_color = Color(1.0, 0.0, 1.0, 1.0) 
-	sb.border_width_left = 4
-	sb.border_width_top = 4
-	sb.border_width_right = 4
-	sb.border_width_bottom = 4
+	var sb = StyleBoxTexture.new()
+
+	sb.texture = arena_texture
+
 	visual.add_theme_stylebox_override("panel", sb)
+
 	visual.size = size 
 	visual.position = -size / 2
 	wall.add_child(visual)
