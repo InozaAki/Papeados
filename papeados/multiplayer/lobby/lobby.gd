@@ -66,6 +66,7 @@ func _obtener_ip_local() -> String:
 func _on_iniciar_pressed():
 	if soy_anfitrion:
 		if Jugadores.size() > 1:
+			_actualizar_lista_visual()
 			_change_scene_to_main_clients.rpc()
 			_change_scene_to_main_server()
 		else:
@@ -133,15 +134,24 @@ func _actualizar_lista_visual():
 	for hijo in $ListaJugadores.get_children():
 		hijo.queue_free()
 		
+	network_manager.jugadores_activos.clear()
+		
 	var contador_invitados = 2
 	for jugador in Jugadores:
 		var nueva_fila = fila_jugador_scene.instantiate()
+		var nombre_final = ""
 		
 		if jugador.peer_id == 1:
-			nueva_fila.get_node("NombreLabel").text = "Jugador 1"
+			nombre_final = "Jugador 1"
 		else:
-			nueva_fila.get_node("NombreLabel").text = "Jugador " + str(contador_invitados)
+			nombre_final = "Jugador " + str(contador_invitados)
 			contador_invitados += 1
 			
+		network_manager.jugadores_activos[jugador.peer_id] = {
+			"nombre": nombre_final,
+			"avatar_idx": jugador.avatar_idx
+		}
+			
+		nueva_fila.get_node("NombreLabel").text = nombre_final
 		nueva_fila.get_node("AvatarTexture").texture = avatares[jugador.avatar_idx]
 		$ListaJugadores.add_child(nueva_fila)
