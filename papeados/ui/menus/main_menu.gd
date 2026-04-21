@@ -6,6 +6,9 @@ extends Node2D
 @onready var network_manager = get_node("/root/NetworkManager")
 
 func _ready():
+	
+	MusicController.play_main_music()
+	
 	crear_partida_btn.pressed.connect(_on_crear_pressed)
 	unirse_btn.pressed.connect(_on_unirse_pressed)
 	salir_btn.pressed.connect(_on_salir_pressed)

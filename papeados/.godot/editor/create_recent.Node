@@ -1,9 +1,10 @@
+Sprite2D
+AudioStreamPlayer
 BoxContainer
 Button
 Label
 Panel
 CanvasLayer
-Sprite2D
 TextureRect
 Node
 HSplitContainer
@@ -11,4 +12,3 @@ HFlowContainer
 HBoxContainer
 ProgressBar
 Control
-LineEdit

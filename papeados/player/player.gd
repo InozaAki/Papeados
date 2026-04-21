@@ -5,7 +5,7 @@ class_name Player
 # CONSTANTES DE MOVIMIENTO
 # ========================================
 const SPEED := 300.0
-const JUMP_VELOCITY := -400.0
+const JUMP_VELOCITY := -450.0
 const GRAVITY := 900.0 #TODO: Añadir el gravitymanager
 const MAX_FALL_SPEED := 900.0
 const ACCELERATION := 800.0

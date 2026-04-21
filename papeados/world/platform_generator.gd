@@ -1,6 +1,5 @@
 extends Node2D
 
-var texture_plataforma_neon = preload("res://scenes/borde.png")
 @export_group("Arena Settings")
 @export var arena_width := 800
 @export var arena_height := 600
@@ -15,12 +14,15 @@ var texture_plataforma_neon = preload("res://scenes/borde.png")
 @export_group("Distribution")
 @export var min_vertical_spacing := 80
 @export var min_horizontal_spacing := 60
-@export var use_grid_distribution := false
 
 @export_group("Visual")
 @export var show_platforms := true
-@export var platform_color := Color(0.4, 0.6, 0.8, 1.0)
-@export var add_outline := true
+@export var visual_y_tweak := 0.0
+
+@export_group("Platform Textures")
+@export var texture_left: Texture2D
+@export var texture_center: Texture2D
+@export var texture_right: Texture2D
 
 @export_group("Gameplay")
 @export var ensure_reachability := true
@@ -54,10 +56,8 @@ func _receive_seed(seed_value: int) -> void:
 func regenerate_for_round() -> void:
 	if not multiplayer.is_server():
 		return
-
 	_map_seed = randi()
 	_sync_and_generate.rpc(_map_seed)
-
 
 @rpc("authority", "reliable", "call_local")
 func _sync_and_generate(new_seed: int) -> void:
@@ -96,7 +96,6 @@ func is_valid_position(pos: Vector2, width: float) -> bool:
 	for platform_data in platforms:
 		var other_pos = platform_data.position
 		var other_width = platform_data.width
-
 		if abs(pos.x - other_pos.x) < (width + other_width) / 2 + min_horizontal_spacing:
 			if abs(pos.y - other_pos.y) < min_vertical_spacing:
 				return false
@@ -116,7 +115,7 @@ func create_platform(pos: Vector2, width: float):
 	add_child(platform)
 
 	if show_platforms:
-		add_platform_visual(platform, width)
+		_add_platform_visual(platform, width)
 
 	platforms.append({
 		"position": pos,
@@ -124,22 +123,72 @@ func create_platform(pos: Vector2, width: float):
 		"node": platform
 	})
 
-func add_platform_visual(platform: StaticBody2D, width: float):
-	var visual = Panel.new()
-	var sb = StyleBoxFlat.new()
+func _add_platform_visual(platform: StaticBody2D, width: float) -> void:
 
+	if not texture_left or not texture_center or not texture_right:
+		_add_platform_visual_fallback(platform, width)
+		return
+
+	var left_w  := float(texture_left.get_width())
+	var right_w := float(texture_right.get_width())
+	var height  := float(texture_left.get_height())
+	var center_tex_w := float(texture_center.get_width())
+
+	var max_caps_width = left_w + right_w
+	var cap_scale := 1.0
+	if max_caps_width > width:
+		cap_scale = width / max_caps_width
+
+	var left_final_w := left_w * cap_scale
+	var right_final_w := right_w * cap_scale
+	var center_w: float = max(width - left_final_w - right_final_w, 0.0)
+
+	var root := Node2D.new()
+	root.position = Vector2(-width / 2.0, 0)
+	platform.add_child(root)
+
+	var y_offset = (height - platform_thickness) / 2.0 + visual_y_tweak
+
+	# LEFT
+	var left := Sprite2D.new()
+	left.texture = texture_left
+	left.position = Vector2(left_final_w / 2.0, y_offset)
+	left.scale.x = cap_scale
+	root.add_child(left)
+
+	# CENTER
+	if center_w > 0.0:
+		var center := Sprite2D.new()
+		center.texture = texture_center
+		center.position = Vector2(left_final_w + center_w / 2.0, y_offset)
+		if center_tex_w > 0.0:
+			center.scale.x = center_w / center_tex_w
+		root.add_child(center)
+
+	# RIGHT
+	var right := Sprite2D.new()
+	right.texture = texture_right
+	right.position = Vector2(left_final_w + center_w + right_final_w / 2.0, y_offset)
+	right.scale.x = cap_scale
+	root.add_child(right)
+
+func _add_platform_visual_fallback(platform: StaticBody2D, width: float) -> void:
+	var visual := Panel.new()
+	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color(0.15, 0.15, 0.15, 1.0)
 	sb.border_color = Color(1.0, 0.0, 1.0, 1.0)
 	sb.border_width_left = 2
 	sb.border_width_top = 2
 	sb.border_width_right = 2
 	sb.border_width_bottom = 2
-
 	visual.add_theme_stylebox_override("panel", sb)
 	visual.size = Vector2(width, platform_thickness)
-	visual.position = Vector2(-width / 2, -platform_thickness / 2)
+	visual.position = Vector2(-width / 2.0, -platform_thickness / 2.0)
 	platform.add_child(visual)
 
+# ========================================
+# UTILIDADES
+# ========================================
 func regenerate():
 	generate_platforms()
 

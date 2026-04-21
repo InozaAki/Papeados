@@ -1,3 +1,6 @@
+res://world/world_bounds.gd
 res://scenes/main.tscn
-res://ui/ui_manager.gd
-res://core/game_manager.gd
+res://world/platform_generator.gd
+res://potato/explosive_potato.gd
+res://potato/explosive_potato.tscn
+res://player/player.gd

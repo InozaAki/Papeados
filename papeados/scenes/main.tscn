@@ -5,15 +5,19 @@
 [ext_resource type="PackedScene" uid="uid://j41u1vbi1c4e" path="res://player/player.tscn" id="3_choun"]
 [ext_resource type="PackedScene" uid="uid://c6ey4rllf7h2q" path="res://potato/explosive_potato.tscn" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://cn4fvfkn0j8u1" path="res://ui/floating_text/floating-text.tscn" id="4_85g3d"]
+[ext_resource type="Texture2D" uid="uid://dx7ac7mcyxfy8" path="res://assets/sprites/platformIndustrial_005.png" id="4_dp3eg"]
 [ext_resource type="Script" uid="uid://vukn3ut7mbeo" path="res://world/world_bounds.gd" id="5_choun"]
 [ext_resource type="Script" uid="uid://22qt6jy1ovy2" path="res://gameplay/player_manager.gd" id="6_85g3d"]
+[ext_resource type="Texture2D" uid="uid://60nqh5skvp5b" path="res://assets/sprites/platformIndustrial_035.png" id="6_muem4"]
 [ext_resource type="Script" uid="uid://b36ehksen7j5y" path="res://world/platform_generator.gd" id="6_ya4ey"]
 [ext_resource type="Script" uid="uid://dmssb76jls2xa" path="res://gameplay/round_manager.gd" id="7_choun"]
+[ext_resource type="Texture2D" uid="uid://6ggp720xlpcr" path="res://assets/sprites/platformIndustrial_036.png" id="7_dp3eg"]
+[ext_resource type="Texture2D" uid="uid://dhosni228vwn5" path="res://assets/sprites/platformIndustrial_037.png" id="8_0ld40"]
 [ext_resource type="Script" uid="uid://dfok48u3r818n" path="res://gameplay/score_manager.gd" id="8_ya4ey"]
 [ext_resource type="Script" uid="uid://dx4cddxmgcad8" path="res://gameplay/potato_manager.gd" id="9_eb6dy"]
 [ext_resource type="Script" uid="uid://bi2n7cq6y81nh" path="res://ui/ui_manager.gd" id="9_trceg"]
-[ext_resource type="Texture2D" uid="uid://bto1ws2nrfwml" path="res://assets/background/back.png" id="13_trceg"]
 [ext_resource type="PackedScene" uid="uid://c1rju3yypxytd" path="res://world/platforms/launch_platform.tscn" id="14_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://bto1ws2nrfwml" path="res://assets/background/back.png" id="17_dp3eg"]
 
 [node name="GameManager" type="Node" unique_id=176361699]
 script = ExtResource("1_85g3d")
@@ -24,6 +28,7 @@ script = ExtResource("2_trceg")
 [node name="Arena" type="Node2D" parent="." unique_id=2140676501]
 script = ExtResource("5_choun")
 arena_height = 500
+arena_texture = ExtResource("4_dp3eg")
 
 [node name="LaunchPlatform" parent="Arena" unique_id=410638877 instance=ExtResource("14_a8y0u")]
 position = Vector2(-363, 222.00002)
@@ -37,6 +42,9 @@ scale = Vector2(2, 2)
 
 [node name="Platforms" type="Node2D" parent="." unique_id=465749731]
 script = ExtResource("6_ya4ey")
+texture_left = ExtResource("6_muem4")
+texture_center = ExtResource("7_dp3eg")
+texture_right = ExtResource("8_0ld40")
 
 [node name="PlayerManager" type="Node" parent="." unique_id=839157539]
 script = ExtResource("6_85g3d")
@@ -64,7 +72,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("13_trceg")
+texture = ExtResource("17_dp3eg")
 expand_mode = 1
 stretch_mode = 6
 
