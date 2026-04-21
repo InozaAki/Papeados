@@ -19,6 +19,9 @@ signal game_ended
 
 # Initialization
 func _ready() -> void:
+	
+	MusicController.play_game_music()
+	
 	if multiplayer.is_server():
 		_initialize_server()
 	else:

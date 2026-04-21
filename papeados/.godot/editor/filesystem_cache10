@@ -1,20 +1,20 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1776734910
+::res://::1776785005
 default_bus_layout.tres::AudioBusLayout::7364731840342538623::1770338704::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::1054917381745504061::1770338704::1775928807::1::::<><><>0<>0<>118e1af9c248a88e6797f53580b5ba59<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 ::res://assets/::1776532305
 ::res://assets/background/::1776729304
 back.png::CompressedTexture2D::3750528918394011411::1776532305::1776647680::1::::<><><>0<>0<>28e95d9727725344f4e2f74c8b7cbf72<>res://.godot/imported/back.png-5d2c932cdc8dea9703100b9413f3b972.ctex::
 ChatGPT Image 20 abr 2026, 05_49_35 p.m..png::CompressedTexture2D::3646243489135012766::1776729303::1776729304::1::::<><><>0<>0<>036be4f1b50b057b34951b1cb4706c64<>res://.godot/imported/ChatGPT Image 20 abr 2026, 05_49_35 p.m..png-dcc293ed3dcb26cd35a9c8c7d883abdf.ctex::
-::res://assets/sounds/::1776724302
-countdown-a.ogg::AudioStreamOggVorbis::8506051806800044662::1770338704::1776647677::1::::<><><>0<>0<>a47c7a39dd92fe823533c00b983a0b88<>res://.godot/imported/countdown-a.ogg-57782cd4cd72322b10241868c684b657.oggvorbisstr::
-countdown-b.ogg::AudioStreamOggVorbis::4313579381560617817::1770338704::1776647677::1::::<><><>0<>0<>50a24293b8efafaed1bf92770bb22206<>res://.godot/imported/countdown-b.ogg-37424f2f420d2721ed4bcc6f5511df51.oggvorbisstr::
+::res://assets/sounds/::1776785471
+alarm.ogg::AudioStreamOggVorbis::5021389463253586947::1776785471::1776785471::1::::<><><>0<>0<>420d0079cddbb169cfe836ba04859aef<>res://.godot/imported/alarm.ogg-6df7a1636c50ca54090ddd4358c4c1c7.oggvorbisstr::
 explosion.wav::AudioStreamWAV::8514914455385336868::1770338704::1776647682::1::::<><><>0<>0<>c72658a7b32ec50a786b374a069f1988<>res://.godot/imported/explosion.wav-52e05e8d4b6600106c8dde082c90f915.sample::
 FX061.mp3::AudioStreamMP3::3104922383070034144::1770338704::1776647677::1::::<><><>0<>0<>e3aa1589d6ac7493a716c49c8a39f5c6<>res://.godot/imported/FX061.mp3-de882d79acb8386dc0c70e4b3244fea1.mp3str::
 nutfall.wav::AudioStreamWAV::3692688238970665842::1776532305::1776647682::1::::<><><>0<>0<>7dfa1b1e07521c0971dc89aea2840931<>res://.godot/imported/nutfall.wav-498206bb518978cccafc27d40de5a51a.sample::
 SFX_Jump.wav::AudioStreamWAV::581766817872286161::1770338704::1776647682::1::::<><><>0<>0<>62bb86e996a11a524316c209bb905073<>res://.godot/imported/SFX_Jump.wav-3813edce687e45a9dd81f2c9da62fd1d.sample::
-::res://assets/sounds/music/::1776726039
-cheered_on.ogg::AudioStreamOggVorbis::7966242010568954356::1776726038::1776726039::1::::<><><>0<>0<>894db38bc4c0f32da03230e9095bb30f<>res://.godot/imported/cheered_on.ogg-f9fd8512b2b65911cd1e6b392bcc6a36.oggvorbisstr::
+::res://assets/sounds/music/::1776785141
+cheered_on.ogg::AudioStreamOggVorbis::7966242010568954356::1776726038::1776785141::1::::<><><>0<>0<>72514199bbd60d75c47f7840699c1fc6<>res://.godot/imported/cheered_on.ogg-f9fd8512b2b65911cd1e6b392bcc6a36.oggvorbisstr::
+fight.ogg::AudioStreamOggVorbis::2964473151501755333::1776784896::1776785137::1::::<><><>0<>0<>3f2845d4dfb5f18bc7c66c56f9e316c3<>res://.godot/imported/fight.ogg-28f30925b0c9d5c10d8a1f15afc38e30.oggvorbisstr::
 ::res://assets/sprites/::1776736805
 dynamite_02.png::CompressedTexture2D::815802037667399474::1776736805::1776736805::1::::<><><>0<>0<>156a7980bbaee9eb35d52fa07d3e8050<>res://.godot/imported/dynamite_02.png-692ec67dd1cbdbccc1d62e65d7f87e46.ctex::
 explosion.png::CompressedTexture2D::7052535782608332435::1776696309::1776696315::1::::<><><>0<>0<>ce88001bb52f30227f034b10d6439b27<>res://.godot/imported/explosion.png-9cc5a79bdd01a0eeac6b161c8d594f1f.ctex::
@@ -38,9 +38,9 @@ alienBeige_jump.png::CompressedTexture2D::5584061656194798666::1776696135::17766
 alienBeige_stand.png::CompressedTexture2D::4458808947536239973::1776696139::1776696139::1::::<><><>0<>0<>640014f0b906ebaa296094696190719b<>res://.godot/imported/alienBeige_stand.png-e13f5407dbeb5153271183b109b45b5c.ctex::
 alienBeige_walk1.png::CompressedTexture2D::5934112951505229734::1776696014::1776696014::1::::<><><>0<>0<>54220f05851d1c2fcfbceb803f4cd2cf<>res://.godot/imported/alienBeige_walk1.png-05034c21dddef7f90a3e97d04961e2f5.ctex::
 alienBeige_walk2.png::CompressedTexture2D::3922128638085730163::1776696014::1776696014::1::::<><><>0<>0<>efcd2ee4ac764e8a3d0e79c87e054992<>res://.godot/imported/alienBeige_walk2.png-c0fb51b0262588790f1da9983c7e9a76.ctex::
-::res://core/::1776532305
+::res://core/::1776784994
 app_state_machine.gd::GDScript::4451673977438122172::1776532305::0::1::::AppStateMachine<>Node<><>0<>0<><>::
-game_manager.gd::GDScript::2927847005697942707::1776532305::0::1::::GameManager<>Node<><>0<>0<><>::
+game_manager.gd::GDScript::2927847005697942707::1776784994::0::1::::GameManager<>Node<><>0<>0<><>::
 game_state_machine.gd::GDScript::3342113732916109499::1776532305::0::1::::GameStateMachine<>Node<><>0<>0<><>::
 network_manager.gd::GDScript::4080592254779641965::1776532305::0::1::::<>Node<><>0<>0<><>::
 state_machine.gd::GDScript::2985512408159197389::1776532305::0::1::::StateMachine<>Node<><>0<>0<><>::
@@ -61,17 +61,17 @@ lobby.gd::GDScript::6671498477733662003::1776724851::0::1::::<>Control<><>0<>0<>
 lobby.tscn::PackedScene::8847567390072324895::1776532305::0::1::::<><><>0<>0<><>::uid://c2byutvgdwa32::::res://multiplayer/lobby/lobby.gd<>uid://rd8a8b8bbtc8::::res://multiplayer/lobby/sala de espera.png
 sala de espera.png::CompressedTexture2D::1201408872186149033::1776532305::1776647679::1::::<><><>0<>0<>0e99c0fe2650f4e669514d81a7520b44<>res://.godot/imported/sala de espera.png-ab51077cb20a1a14b1e1f47f82052960.ctex::
 ::res://player/::1776696204
-player.gd::GDScript::3639719498498727885::1776532305::0::1::::Player<>CharacterBody2D<><>0<>0<><>::
+player.gd::GDScript::3639719498498727885::1776737479::0::1::::Player<>CharacterBody2D<><>0<>0<><>::
 player.tscn::PackedScene::693182303405198742::1776696204::0::1::::<><><>0<>0<><>::uid://br4dwbrs8eokr::::res://player/player.gd<>uid://ij2u5mblkjw8::::res://assets/sounds/SFX_Jump.wav<>uid://bsu1bhmt6d2xq::::res://assets/sounds/nutfall.wav<>uid://mpirug68kh8c::::res://assets/sprites/player/alienBeige_hurt.png<>uid://cqsr8dfvj8bms::::res://assets/sprites/player/alienBeige_walk1.png<>uid://b4r46xkn8bg50::::res://assets/sprites/player/alienBeige_stand.png<>uid://cls7xdwn60g0i::::res://assets/sprites/player/alienBeige_jump.png<>uid://bv455d2fokww6::::res://assets/sprites/player/alienBeige_walk2.png
-::res://potato/::1776726055
-explosive_potato.gd::GDScript::5905514515597694696::1776736750::0::1::::ExplosivePotato<>Node2D<><>0<>0<><>::
-explosive_potato.tscn::PackedScene::6958462937428621362::1776726055::0::1::::<><><>0<>0<><>::uid://cqew7xhtuf6c7::::res://potato/explosive_potato.gd<>uid://5e2mk42b1fob::::res://assets/sprites/papa-bomba.png<>uid://bkibvaoo17blg::::res://assets/sounds/FX061.mp3<>uid://dtkxnq8c88lr5::::res://assets/sounds/explosion.wav<>uid://dtgnovwxx87io::::res://assets/sounds/countdown-a.ogg<>uid://b2psa0wiuhlun::::res://assets/sounds/countdown-b.ogg<>uid://c7qkh7phnlnep::::res://assets/sprites/explosion.png
-::res://scenes/::1776735837
-bg_music.gd::GDScript::591989162025246364::1776726055::0::1::::<>Node<><>0<>0<><>::
+::res://potato/::1776785464
+explosive_potato.gd::GDScript::5905514515597694696::1776785462::0::1::::ExplosivePotato<>Node2D<><>0<>0<><>::
+explosive_potato.tscn::PackedScene::6958462937428621362::1776785464::0::1::::<><><>0<>0<><>::uid://cqew7xhtuf6c7::::res://potato/explosive_potato.gd<>uid://5e2mk42b1fob::::res://assets/sprites/papa-bomba.png<>uid://bkibvaoo17blg::::res://assets/sounds/FX061.mp3<>uid://dtkxnq8c88lr5::::res://assets/sounds/explosion.wav<>uid://c7qkh7phnlnep::::res://assets/sprites/explosion.png<>uid://lvge1jd1eppy::::res://assets/sprites/dynamite_02.png
+::res://scenes/::1776785154
+bg_music.gd::GDScript::591989162025246364::1776784945::0::1::::<>Node<><>0<>0<><>::
 borde.png::CompressedTexture2D::6060469072566226284::1776532305::1776647678::1::::<><><>0<>0<>2535468138dbd74a7bf8f6b8e57be403<>res://.godot/imported/borde.png-0d7ac0e52d0e972798af29e83056dc10.ctex::
 fondo.png::CompressedTexture2D::7432460837764830474::1776532306::1776647679::1::::<><><>0<>0<>1056e3b29d2da8a3a2444a6a95bd19cd<>res://.godot/imported/fondo.png-fde226daa00939c587d33a4c41b2a481.ctex::
-main.tscn::PackedScene::7656119402039998235::1776735837::0::1::::<><><>0<>0<><>::uid://bhyjhhs7s1g2v::::res://core/game_manager.gd<>uid://bnu7eim07dvx8::::res://core/game_state_machine.gd<>uid://j41u1vbi1c4e::::res://player/player.tscn<>uid://c6ey4rllf7h2q::::res://potato/explosive_potato.tscn<>uid://cn4fvfkn0j8u1::::res://ui/floating_text/floating-text.tscn<>uid://dx7ac7mcyxfy8::::res://assets/sprites/platformIndustrial_005.png<>uid://vukn3ut7mbeo::::res://world/world_bounds.gd<>uid://22qt6jy1ovy2::::res://gameplay/player_manager.gd<>uid://60nqh5skvp5b::::res://assets/sprites/platformIndustrial_035.png<>uid://b36ehksen7j5y::::res://world/platform_generator.gd<>uid://dmssb76jls2xa::::res://gameplay/round_manager.gd<>uid://6ggp720xlpcr::::res://assets/sprites/platformIndustrial_036.png<>uid://dhosni228vwn5::::res://assets/sprites/platformIndustrial_037.png<>uid://dfok48u3r818n::::res://gameplay/score_manager.gd<>uid://dx4cddxmgcad8::::res://gameplay/potato_manager.gd<>uid://bi2n7cq6y81nh::::res://ui/ui_manager.gd<>uid://c1rju3yypxytd::::res://world/platforms/launch_platform.tscn<>uid://br7jdk03rh8xe::::res://assets/background/ChatGPT Image 20 abr 2026, 05_49_35 p.m..png
-MusicController.tscn::PackedScene::5330169075007894776::1776728380::0::1::::<><><>0<>0<><>::uid://io08fdydm3cy::::res://scenes/bg_music.gd
+main.tscn::PackedScene::7656119402039998235::1776785046::0::1::::<><><>0<>0<><>::uid://bhyjhhs7s1g2v::::res://core/game_manager.gd<>uid://bnu7eim07dvx8::::res://core/game_state_machine.gd<>uid://j41u1vbi1c4e::::res://player/player.tscn<>uid://c6ey4rllf7h2q::::res://potato/explosive_potato.tscn<>uid://cn4fvfkn0j8u1::::res://ui/floating_text/floating-text.tscn<>uid://dx7ac7mcyxfy8::::res://assets/sprites/platformIndustrial_005.png<>uid://vukn3ut7mbeo::::res://world/world_bounds.gd<>uid://22qt6jy1ovy2::::res://gameplay/player_manager.gd<>uid://60nqh5skvp5b::::res://assets/sprites/platformIndustrial_035.png<>uid://b36ehksen7j5y::::res://world/platform_generator.gd<>uid://dmssb76jls2xa::::res://gameplay/round_manager.gd<>uid://6ggp720xlpcr::::res://assets/sprites/platformIndustrial_036.png<>uid://dhosni228vwn5::::res://assets/sprites/platformIndustrial_037.png<>uid://dfok48u3r818n::::res://gameplay/score_manager.gd<>uid://dx4cddxmgcad8::::res://gameplay/potato_manager.gd<>uid://bi2n7cq6y81nh::::res://ui/ui_manager.gd<>uid://c1rju3yypxytd::::res://world/platforms/launch_platform.tscn<>uid://bto1ws2nrfwml::::res://assets/background/back.png
+MusicController.tscn::PackedScene::5330169075007894776::1776785154::0::1::::<><><>0<>0<><>::uid://io08fdydm3cy::::res://scenes/bg_music.gd
 P1.png::CompressedTexture2D::7351048285555775172::1776532305::1776647678::1::::<><><>0<>0<>f5ce3ed817feca6dcf8b830da6f14fec<>res://.godot/imported/P1.png-041f3239194c5497ae6cdfedb2c625bb.ctex::
 P2.png::CompressedTexture2D::9171637965456292162::1776532305::1776647678::1::::<><><>0<>0<>b7306d1cd7e6276c0080109e7eebedd4<>res://.godot/imported/P2.png-a19283aed999ba6485bece52b3c58ea2.ctex::
 P3.png::CompressedTexture2D::3055137453236013028::1776532305::1776647678::1::::<><><>0<>0<>dec16fd7a34c1cee626343349570053c<>res://.godot/imported/P3.png-324a55bca38151da8f796da52ad4efd4.ctex::

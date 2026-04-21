@@ -26,8 +26,7 @@ var has_exploded := false
 @export_group("Sounds")
 @export var explosion_sound: AudioStreamWAV
 @export var attach_sound: AudioStreamMP3
-@export var warning_sound_a: AudioStreamOggVorbis
-@export var warning_sound_b: AudioStreamOggVorbis
+@export var warning_sound: AudioStreamOggVorbis
 
 @onready var audio = $AudioStreamPlayer2D
 
@@ -60,12 +59,8 @@ func countdown_sound() -> void:
 
 	var time_remaining = get_time_remaining()
 	if time_remaining <= warning_threshold:
-		if int(time_remaining) % 2 != 0:
-			if not audio.playing or audio.stream != warning_sound_a:
-				_play_warning_sound()
-		else:
-			if not audio.playing or audio.stream != warning_sound_b:
-				_play_warning_sound_b()
+		if not audio.playing or audio.stream != warning_sound:
+			_play_warning_sound()
 
 func _setup_timers() -> void:
 	timer.wait_time = explosion_timer
@@ -156,11 +151,7 @@ func _play_explosion_sound() -> void:
 	audio.play()
 
 func _play_warning_sound() -> void:
-	audio.stream = warning_sound_a
-	audio.play()
-
-func _play_warning_sound_b() -> void:
-	audio.stream = warning_sound_b
+	audio.stream = warning_sound
 	audio.play()
 
 func _play_attach_sound() -> void:

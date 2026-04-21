@@ -4,8 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://5e2mk42b1fob" path="res://assets/sprites/papa-bomba.png" id="2_rdemm"]
 [ext_resource type="AudioStream" uid="uid://bkibvaoo17blg" path="res://assets/sounds/FX061.mp3" id="3_0j0ad"]
 [ext_resource type="AudioStream" uid="uid://dtkxnq8c88lr5" path="res://assets/sounds/explosion.wav" id="3_ogi6q"]
-[ext_resource type="AudioStream" uid="uid://dtgnovwxx87io" path="res://assets/sounds/countdown-a.ogg" id="4_5l8b5"]
-[ext_resource type="AudioStream" uid="uid://b2psa0wiuhlun" path="res://assets/sounds/countdown-b.ogg" id="4_gk3pq"]
+[ext_resource type="AudioStream" uid="uid://cdsnsy0wc5mu2" path="res://assets/sounds/alarm.ogg" id="4_e3njf"]
 [ext_resource type="Texture2D" uid="uid://c7qkh7phnlnep" path="res://assets/sprites/explosion.png" id="6_e3njf"]
 [ext_resource type="Texture2D" uid="uid://lvge1jd1eppy" path="res://assets/sprites/dynamite_02.png" id="8_xe210"]
 
@@ -97,8 +96,7 @@ script = ExtResource("1_ac65k")
 explosion_radius = 100.0
 explosion_sound = ExtResource("3_ogi6q")
 attach_sound = ExtResource("3_0j0ad")
-warning_sound_a = ExtResource("4_5l8b5")
-warning_sound_b = ExtResource("4_gk3pq")
+warning_sound = ExtResource("4_e3njf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=983704397]
 position = Vector2(-4.7683716e-07, 1.0000005)
