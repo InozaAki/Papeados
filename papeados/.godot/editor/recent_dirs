@@ -1,8 +1,5 @@
-res://scenes/
-<<<<<<< HEAD
 res://assets/sprites/
+res://scenes/
 res://assets/sprites/player/
-=======
->>>>>>> bd7c4163ffb8d2a709a979655f6aceee96cf89dc
 res://ui/menus/
 res://multiplayer/lobby/

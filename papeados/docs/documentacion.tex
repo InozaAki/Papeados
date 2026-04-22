@@ -1,0 +1,362 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\geometry{margin=2.5cm}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    urlcolor=blue!60!black,
+    citecolor=blue!60!black,
+    pdftitle={Documentación técnica y funcional de Papeados},
+    pdfauthor={Equipo Papeados}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Papeados}
+\rhead{Documentación del proyecto}
+\cfoot{\thepage}
+
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+
+\title{\textbf{Papeados}\\[0.3em] Documentación funcional y técnica}
+\author{Equipo de desarrollo de Papeados}
+\date{21 de abril de 2026}
+
+\begin{document}
+
+\maketitle
+
+\section*{Autores del proyecto}
+\begin{itemize}[leftmargin=*, itemsep=0.6em]
+    \item \textbf{Jonatan Godinez Flores} \\
+    Rol: Programador de Red \\
+    Responsabilidades: Networking, sincronización, lobby \\
+    GitHub: \href{https://github.com/}{GitHub}
+
+    \item \textbf{Axel Espinosa} \\
+    Rol: Programador de Lógica de Juego \\
+    Responsabilidades: Mecánicas, colisiones, estados del juego \\
+    GitHub: \href{https://github.com/InozaAki}{InozaAki}
+
+    \item \textbf{Bryan Julián Mendez Ambriz} \\
+    Rol: Diseñador UI/UX y QA \\
+    Responsabilidades: Interfaces, arte, testing, coordinación \\
+    GitHub: \href{https://github.com/Bjma1507}{Bjma1507}
+\end{itemize}
+
+\begin{abstract}
+Papeados es un videojuego multijugador en red inspirado en el clásico \emph{hot potato}. El objetivo es evitar quedarse con la papa bomba cuando el temporizador llega a cero. Esta documentación describe la estructura general del proyecto, sus sistemas principales, el flujo de juego y la organización de carpetas a partir del código actual del repositorio.
+\end{abstract}
+
+\clearpage
+\tableofcontents
+\clearpage
+
+\section{Descripción general}
+Papeados es un juego 2D para entre 2 y 6 jugadores donde una papa explosiva se transfiere entre jugadores mediante colisión. Quien conserva la papa cuando termina el conteo es eliminado y la partida continúa con una nueva ronda hasta que quede un único jugador o se alcance la condición de victoria.
+
+El proyecto está desarrollado en Godot con GDScript y organiza su lógica en módulos separados para facilitar el mantenimiento:
+\begin{itemize}[nosep]
+    \item Menú principal y lobby multijugador.
+    \item Gestión central de la partida.
+    \item Jugadores, movimiento y sincronización en red.
+    \item Papa explosiva, rondas, puntuación y eliminación.
+    \item Interfaz de usuario, escenas finales y gestión de mundo.
+\end{itemize}
+
+\section{Objetivo del juego}
+El diseño base del juego responde a estas reglas:
+\begin{itemize}[nosep]
+    \item La partida requiere al menos dos jugadores.
+    \item Al iniciar una ronda, un jugador recibe la papa.
+    \item El jugador con la papa debe tocar a otro para transferírsela.
+    \item Si el temporizador termina con un jugador portando la papa, ese jugador queda eliminado.
+    \item El ciclo se repite hasta que un jugador alcance la condición de victoria definida por rondas ganadas.
+\end{itemize}
+
+\section{Arquitectura general}
+El proyecto separa la lógica en tres niveles:
+
+\subsection{Capa de interfaz}
+Incluye el menú principal, el lobby, las pantallas de ganador y perdedor, además de la UI de juego.
+
+\subsection{Capa de juego}
+Contiene la lógica de movimiento del jugador, el sistema de papa explosiva, el control de rondas, el sistema de puntuación y la gestión del estado de juego.
+
+\subsection{Capa de red}
+Sincroniza jugadores, estados, puntuación y eventos importantes entre servidor y clientes usando RPC y autoridad de red.
+
+\section{Flujo de ejecución}
+El recorrido principal de una partida es el siguiente:
+\begin{enumerate}[nosep]
+    \item El jugador entra al menú principal.
+    \item Se crea una sala o se une a una existente desde el lobby.
+    \item El host inicia la partida cuando hay suficientes jugadores.
+    \item Se carga la escena principal del juego.
+    \item \texttt{GameManager} inicializa el estado de red y arranca la primera ronda.
+    \item \texttt{RoundManager} prepara el escenario, respawnea jugadores y emite el inicio de ronda.
+    \item \texttt{PotatoManager} coloca la papa en un jugador aleatorio vivo.
+    \item Los jugadores se mueven y transfieren la papa por colisión.
+    \item Cuando ocurre la explosión, se eliminan los afectados y se actualiza el marcador.
+    \item Si un jugador alcanza la meta de rondas, se muestran las pantallas finales.
+\end{enumerate}
+
+\section{Módulos principales}
+
+\subsection{\texttt{GameManager}}
+El gestor central de la partida coordina la interacción entre todos los subsistemas.
+\begin{itemize}[nosep]
+    \item Decide si la instancia actúa como servidor o cliente.
+    \item Conecta señales de papa, rondas y estado de juego.
+    \item Spawnea jugadores al entrar nuevos peers.
+    \item Maneja desconexiones, reinicio de partida y anuncios de ganador.
+    \item Coordina la música del juego y el arranque de la primera ronda.
+\end{itemize}
+
+\subsection{\texttt{PlayerManager}}
+Administra la vida de los jugadores en la escena.
+\begin{itemize}[nosep]
+    \item Instancia jugadores con autoridad de red por peer.
+    \item Guarda posiciones de aparición rotativas.
+    \item Respawnea, elimina y marca jugadores como vivos o muertos.
+    \item Provee consultas como obtener jugadores vivos, posiciones o el jugador aleatorio disponible.
+\end{itemize}
+
+\subsection{\texttt{PotatoManager}}
+Controla la papa explosiva y su ciclo de vida.
+\begin{itemize}[nosep]
+    \item Spawnea la papa en un jugador vivo.
+    \item Transfiere la papa entre jugadores cuando el servidor lo ordena.
+    \item Maneja el temporizador de aparición automática.
+    \item Recibe el evento de explosión y emite la lista de jugadores afectados.
+    \item Gestiona texto flotante de retroalimentación visual.
+\end{itemize}
+
+\subsection{\texttt{RoundManager}}
+Organiza la secuencia de rondas.
+\begin{itemize}[nosep]
+    \item Inicia rondas y reestablece estados de supervivencia.
+    \item Determina cuándo una ronda termina.
+    \item Suma puntos al superviviente cuando corresponde.
+    \item Verifica si alguien alcanzó la cantidad de rondas necesarias para ganar.
+    \item Envía a las pantallas de ganador o perdedor al cerrar la partida.
+\end{itemize}
+
+\subsection{\texttt{ScoreManager}}
+Lleva el registro de puntos por jugador.
+\begin{itemize}[nosep]
+    \item Inicializa el marcador con los peers activos.
+    \item Registra nuevos jugadores.
+    \item Aumenta la puntuación del superviviente.
+    \item Sincroniza los cambios en clientes mediante RPC.
+    \item Permite consultar puntos individuales o el mapa completo de puntuaciones.
+\end{itemize}
+
+\subsection{\texttt{GameStateMachine}}
+Define el estado lógico global de la partida.
+\begin{itemize}[nosep]
+    \item Estados: \texttt{WAITING}, \texttt{STARTING}, \texttt{IN\_ROUND}, \texttt{ROUND\_OVER} y \texttt{GAME\_OVER}.
+    \item Notifica transiciones a través de señales.
+    \item Permite reaccionar de forma centralizada a inicio de juego, inicio de ronda, fin de ronda y game over.
+\end{itemize}
+
+\subsection{\texttt{Player}}
+El script del jugador concentra el comportamiento de movimiento y red.
+\begin{itemize}[nosep]
+    \item Maneja gravedad, salto, dash y movimiento horizontal.
+    \item Reproduce animaciones según el estado del personaje.
+    \item Sincroniza posición, velocidad y orientación con la red.
+    \item Permite knockback por colisión.
+    \item Gestiona la transferencia de papa cuando un jugador entra en contacto con otro.
+\end{itemize}
+
+\subsection{\texttt{PlayerSprite}}
+Genera el efecto visual de estela o \emph{ghost} durante el dash.
+\begin{itemize}[nosep]
+    \item Crea una caché de sprites duplicados para reutilizarlos.
+    \item Activa el efecto solo cuando el jugador está en dash.
+    \item Anima el desvanecimiento del sprite para simular velocidad.
+\end{itemize}
+
+\section{Sistema multijugador}
+La base online utiliza un modelo cliente-servidor donde el servidor es autoridad para los eventos importantes.
+
+\subsection{Autoridad}
+\begin{itemize}[nosep]
+    \item Cada jugador controla su propio personaje local.
+    \item El servidor decide la creación de jugadores, transferencia de papa, eliminación y puntuación.
+    \item Los clientes reciben los cambios por RPC y actualizan su vista local.
+\end{itemize}
+
+\subsection{Sincronización}
+Los datos que se replican con más frecuencia son:
+\begin{itemize}[nosep]
+    \item Posición y velocidad del jugador.
+    \item Cambios de estado de la partida.
+    \item Estado de la papa y su transferencia.
+    \item Marcador y resultados de ronda.
+\end{itemize}
+
+\subsection{Conexión y lobby}
+El lobby permite crear o unirse a una sala, mostrar participantes y validar que haya suficientes jugadores antes de iniciar la partida. Una vez que el host empieza, la escena principal se carga para todos los participantes.
+
+\section{Interfaz y escenas}
+El proyecto separa la presentación en escenas distintas:
+\begin{itemize}[nosep]
+    \item Menú principal para crear o unirse a una partida.
+    \item Lobby multijugador con lista de jugadores y control de inicio.
+    \item Escena principal de juego.
+    \item Pantalla de ganador.
+    \item Pantalla de perdedor.
+\end{itemize}
+
+También existe una capa de UI para HUD, textos flotantes y elementos auxiliares. La escena de fondo y los elementos visuales refuerzan la identidad del proyecto con una estética arcade colorida.
+
+\section{Mundo y escenarios}
+La carpeta \texttt{world} agrupa elementos del entorno:
+\begin{itemize}[nosep]
+    \item Generación de plataformas.
+    \item Bordes del mundo y límites del mapa.
+    \item Cambios de gravedad.
+    \item Plataformas especiales como lanzadores o interruptores.
+\end{itemize}
+
+Este bloque permite extender el diseño de mapas sin tocar la lógica de jugador o de papa.
+
+\section{Estructura de carpetas}
+La siguiente organización resume el contenido actual del proyecto:
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{3.3cm}|p{10cm}|}
+\hline
+\textbf{Carpeta} & \textbf{Propósito} \\
+\hline
+\endhead
+\texttt{assets/} & Recursos artísticos y de audio del juego. \\
+\hline
+\texttt{core/} & Sistemas centrales: estado de aplicación, estado de juego, red, validación y manager principal. \\
+\hline
+\texttt{gameplay/} & Reglas de juego, rondas, puntaje, jugadores y papa. \\
+\hline
+\texttt{multiplayer/} & Lobby y flujo de conexión. \\
+\hline
+\texttt{player/} & Lógica y escena del jugador. \\
+\hline
+\texttt{potato/} & Lógica y escena de la papa explosiva. \\
+\hline
+\texttt{scenes/} & Menús, pantallas finales, administración de escenas y música. \\
+\hline
+\texttt{ui/} & Interfaz, HUD, menús y textos flotantes. \\
+\hline
+\texttt{world/} & Generación del escenario y elementos del mapa. \\
+\hline
+\end{longtable}
+
+\section{Tecnologías y herramientas}
+\begin{itemize}[nosep]
+    \item Motor: Godot.
+    \item Lenguaje: GDScript.
+    \item Control de versiones: Git y GitHub.
+    \item Diseño visual: Figma y Piskel.
+    \item Comunicación y coordinación: Discord y Notion.
+\end{itemize}
+
+\section{Estado actual del proyecto}
+Con base en el estado del repositorio, el proyecto se encuentra en desarrollo activo. La base funcional ya incluye:
+\begin{itemize}[nosep]
+    \item Menú principal y lobby multijugador.
+    \item Gestión central de partida.
+    \item Spawns de jugador y eliminación.
+    \item Transferencia de la papa y explosión.
+    \item Sistema de rondas y marcador.
+    \item Pantallas de victoria y derrota.
+\end{itemize}
+
+Quedan por consolidar o pulir aspectos como la experiencia visual final, la optimización de red, el balance del gameplay y el empaquetado final de documentación.
+
+\section{Plan para la implementación de la conexión en red en la siguiente fase}
+Aunque el proyecto ya cuenta con una implementación funcional de conexión en red, para efectos del entregable se plantea un plan de implementación y consolidación que modela cómo habría sido la fase siguiente de desarrollo y mejora.
+
+\subsection{Objetivo general}
+Diseñar, estabilizar y validar la arquitectura de red del juego para garantizar partidas multijugador fluidas, sincronización consistente entre clientes y servidor, y una base escalable para nuevas mecánicas.
+
+\subsection{Objetivos específicos}
+\begin{itemize}[nosep]
+    \item Definir y documentar el modelo de autoridad (servidor autoritativo y clientes replicados).
+    \item Estandarizar los RPC críticos de juego (spawn, estado de ronda, transferencia de papa, puntuación y fin de partida).
+    \item Reducir desincronizaciones de movimiento mediante interpolación y umbrales de actualización.
+    \item Fortalecer la tolerancia a desconexiones y reconexiones en mitad de partida.
+    \item Establecer pruebas de estrés para medir estabilidad y latencia percibida.
+\end{itemize}
+
+\subsection{Plan por etapas}
+\begin{enumerate}[nosep]
+    \item \textbf{Etapa 1: Diseño técnico de red} \\
+    Definición de eventos sincronizados, estructura de mensajes RPC, reglas de autoridad y diagrama de flujo de conexión lobby $\rightarrow$ partida.
+
+    \item \textbf{Etapa 2: Implementación base} \\
+    Integración de creación/unión de sala, spawn de jugadores en servidor, replicación de estado inicial y sincronización de transición de escenas.
+
+    \item \textbf{Etapa 3: Sincronización de gameplay} \\
+    Replicación de movimiento, orientación, estados de ronda, posesión de papa, explosión y eliminación, con validaciones del lado servidor.
+
+    \item \textbf{Etapa 4: Robustez y recuperación} \\
+    Manejo de peer desconectado, reasignación de flujo de ronda, recuperación de estado para clientes tardíos y reinicio seguro de partida.
+
+    \item \textbf{Etapa 5: Optimización y QA} \\
+    Ajuste de tasa de actualización, reducción de tráfico innecesario, pruebas con múltiples clientes y corrección de jitter o regresiones.
+\end{enumerate}
+
+\subsection{Cronograma tentativo}
+\begin{itemize}[nosep]
+    \item Semana 1: Diseño técnico y contrato de mensajes de red.
+    \item Semana 2: Implementación base de conexión, sala y sincronización inicial.
+    \item Semana 3: Integración completa del gameplay sincronizado.
+    \item Semana 4: Pruebas de carga, manejo de fallos y optimización final.
+\end{itemize}
+
+\subsection{Riesgos técnicos y mitigación}
+\begin{itemize}[nosep]
+    \item \textbf{Desincronización de estados}: Mitigar con servidor autoritativo y eventos confiables para cambios críticos.
+    \item \textbf{Latencia percibida en movimiento}: Mitigar con interpolación en clientes y umbrales de envío.
+    \item \textbf{Errores por desconexión}: Mitigar con limpieza controlada de peers y reanudación de ronda.
+    \item \textbf{Regresiones al escalar}: Mitigar con pruebas por escenario y checklist de validación por release.
+\end{itemize}
+
+\subsection{Entregables de la fase}
+\begin{itemize}[nosep]
+    \item Documento técnico de arquitectura de red y decisiones de diseño.
+    \item Matriz de RPC con propósito, confiabilidad y origen de autoridad.
+    \item Registro de pruebas multijugador (funcionales y de estrés).
+    \item Informe de optimización de red con métricas de estabilidad.
+\end{itemize}
+
+\section{Problemas encontrados y reestructuración}
+Durante las primeras etapas del desarrollo, el proyecto se construyó con una estructura más monolítica. En ese momento parecía la opción más rápida y sencilla para avanzar con un prototipo funcional, ya que concentrar gran parte de la lógica en pocos scripts facilitaba implementar mecánicas básicas en poco tiempo.
+
+Sin embargo, conforme se agregaron nuevas funcionalidades (multijugador, control de rondas, sincronización de estado, UI y reglas de eliminación), esa aproximación comenzó a volverse insostenible. Los principales problemas fueron:
+\begin{itemize}[nosep]
+    \item Alto acoplamiento entre sistemas, donde un cambio en una mecánica afectaba partes no relacionadas.
+    \item Dificultad para depurar errores, especialmente en lógica de red y flujo de partida.
+    \item Menor claridad del código para trabajo colaborativo, al no existir límites claros de responsabilidad.
+    \item Mayor riesgo de regresiones al extender funcionalidades o corregir bugs.
+\end{itemize}
+
+Como resultado, se realizó una reestructuración hacia la arquitectura modular actual, separando responsabilidades por managers y sistemas especializados (jugadores, papa, rondas, puntuación, estados y red). Esta transición mejoró significativamente la mantenibilidad del proyecto, permitió escalar el desarrollo de forma más segura y simplificó la incorporación de nuevas mecánicas.
+
+\section{Conclusión}
+Papeados es un proyecto académico con una base modular clara. La separación entre gestores de juego, red, jugador, papa y UI facilita ampliar reglas, agregar mecánicas nuevas y mantener el código. Esta documentación puede servir como referencia técnica para el equipo y como base para entregas futuras.
+
+\end{document}

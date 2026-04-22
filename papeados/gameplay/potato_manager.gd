@@ -21,7 +21,6 @@ var _spawn_timer: Timer
 
 
 func _ready() -> void:
-	# El primer "seguro": Solo el servidor configura el tiempo de spawn
 	if multiplayer.has_multiplayer_peer() and multiplayer.is_server():
 		if auto_spawn:
 			_setup_spawn_timer()
@@ -47,7 +46,6 @@ func stop_spawn_timer() -> void:
 
 
 func spawn_potato_on_player(target_player: Player, player_manager: PlayerManager) -> void:
-	# Este check evita el error rojo del Validator en los clientes
 	if not multiplayer.is_server():
 		return
 		
@@ -95,7 +93,6 @@ func _create_potato(target_player: Player) -> void:
 
 
 func transfer_potato(from_player: Player, to_player: Player, player_manager: PlayerManager) -> void:
-	# Seguro para evitar spam del validador en clientes
 	if not multiplayer.is_server():
 		return
 		
@@ -136,7 +133,6 @@ func _transfer_potato_on_clients(from_peer_id: int, to_peer_id: int) -> void:
 
 
 func _on_potato_exploded(players_in_range: Array[Player], potato: ExplosivePotato) -> void:
-	# Solo el servidor procesa las consecuencias de la explosión
 	if not multiplayer.is_server():
 		return
 		
@@ -157,11 +153,13 @@ func _on_potato_exploded(players_in_range: Array[Player], potato: ExplosivePotat
 
 	print("[PotatoManager] Papa explotó. Afectados: %d" % affected_peer_ids.size())
 
+	
+	players_affected_by_explosion.emit(affected_peer_ids)
+	
 	if is_instance_valid(potato) and potato.audio:
 		await potato.audio.finished
 	
 	active_potatoes.erase(potato)
-	players_affected_by_explosion.emit(affected_peer_ids)
 
 
 # Utilities ---

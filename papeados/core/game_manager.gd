@@ -110,7 +110,6 @@ func _on_peer_connected(peer_id: int) -> void:
 	player_manager.spawn_player(peer_id)
 	score_manager.register_player(peer_id)
 
-	# Informar al nuevo cliente de los jugadores ya existentes
 	for existing_id in player_manager.get_all_peer_ids():
 		if existing_id != peer_id:
 			player_manager._spawn_player_on_clients.rpc_id(
