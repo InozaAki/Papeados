@@ -48,8 +48,9 @@ const FRICTION := 600.0
 # AUDIO
 # ========================================
 @export_group("Audio Settings")
-@export var jump_audio : AudioStreamWAV
+@export var jump_audio : AudioStreamOggVorbis
 @export var collision_sound : AudioStreamWAV
+@export var dash_sound : AudioStreamOggVorbis
 
 # ========================================
 # VARIABLES DE GAMEPLAY
@@ -265,12 +266,7 @@ func _handle_jump() -> void:
 # RPC: Sincronizar salto en todos los clientes
 @rpc("any_peer", "reliable", "call_local")
 func _notify_jump() -> void:
-	audio.stream = jump_audio
-	audio.play()
-
-func _play_collision_sound() -> void:
-	audio.stream = collision_sound
-	audio.play()
+	_play_jump_sound()
 
 # ========================================
 # DASH (Con sincronización RPC)
@@ -301,7 +297,7 @@ func _start_dash() -> void:
 
 @rpc("any_peer", "reliable", "call_local")
 func _notify_dash_start() -> void:
-	pass
+	_play_dash_sound()
 
 @rpc("any_peer", "reliable", "call_local")
 func _notify_dash_end() -> void:
@@ -386,6 +382,24 @@ func _ask_transfer(to_player_id: int) -> void:
 
 func _get_game_manager():
 	return get_tree().current_scene
+
+
+
+
+# Audio
+
+func _play_jump_sound() -> void:
+	audio.stream = jump_audio
+	audio.play()
+
+func _play_dash_sound() -> void:
+	audio.stream = dash_sound
+	audio.play()
+
+func _play_collision_sound() -> void:
+	audio.stream = collision_sound
+	audio.play()
+
 
 # ========================================
 # UTILIDADES DE DEBUG

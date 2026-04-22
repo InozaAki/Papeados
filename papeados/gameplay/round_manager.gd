@@ -142,7 +142,7 @@ func register_death(peer_id: int, player_manager: PlayerManager) -> void:
 		players_dead_this_round.append(peer_id)
 
 func _get_arena():
-	return get_node_or_null("../Arena/Platforms")
+	return get_parent().get_node_or_null("Platforms")
 	
 @rpc("authority", "reliable", "call_local")
 func _trigger_game_over_scenes(winner_id: int) -> void:

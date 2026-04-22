@@ -39,11 +39,6 @@ border_color = Color(0, 0.8980392, 1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_muem4"]
 
-[sub_resource type="Environment" id="Environment_a8y0u"]
-background_mode = 3
-glow_enabled = true
-glow_intensity = 1.5
-
 [node name="GameManager" type="Node" unique_id=176361699]
 script = ExtResource("1_85g3d")
 
@@ -103,13 +98,16 @@ stretch_mode = 6
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1827237706]
 
-[node name="UIManager" type="Node" parent="UI" unique_id=883712495 node_paths=PackedStringArray("round_label", "players_label", "game_over_panel", "winner_label", "play_again_button")]
+[node name="UIManager" type="Node" parent="UI" unique_id=883712495 node_paths=PackedStringArray("round_label", "players_label", "game_over_panel", "winner_label", "play_again_button", "pause_panel", "pause_resume_button", "pause_quit_button")]
 script = ExtResource("9_trceg")
 round_label = NodePath("../HUD/MarginContainer/Rondas/HBoxContainer/Label")
 players_label = NodePath("../HUD/MarginContainer/Puntajes/HBoxContainer/Label")
-game_over_panel = NodePath("../GameOverPanel")
-winner_label = NodePath("../GameOverPanel/BoxContainer/Label")
-play_again_button = NodePath("../GameOverPanel/BoxContainer/Button")
+game_over_panel = NodePath("")
+winner_label = NodePath("")
+play_again_button = NodePath("")
+pause_panel = NodePath("../PauseMenu/Control/Panel")
+pause_resume_button = NodePath("../PauseMenu/Control/Panel/VBoxContainer/Resume")
+pause_quit_button = NodePath("../PauseMenu/Control/Panel/VBoxContainer/Exit")
 
 [node name="HUD" type="CanvasLayer" parent="UI" unique_id=313668401]
 
@@ -160,37 +158,50 @@ text = "InozaAki
 Bjma21
 Jonatan04"
 
-[node name="GameOverPanel" type="Panel" parent="UI" unique_id=1990851170]
+[node name="PauseMenu" type="CanvasLayer" parent="UI" unique_id=1314698076]
+
+[node name="Control" type="Control" parent="UI/PauseMenu" unique_id=561722147]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 4.0
-offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BoxContainer" type="BoxContainer" parent="UI/GameOverPanel" unique_id=1869056066]
+[node name="Panel" type="Panel" parent="UI/PauseMenu/Control" unique_id=1913962263]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PauseMenu/Control/Panel" unique_id=149396765]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -61.0
+offset_top = -76.5
+offset_right = 61.0
+offset_bottom = 76.5
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
-vertical = true
+theme_override_constants/separation = 30
 
-[node name="Label" type="Label" parent="UI/GameOverPanel/BoxContainer" unique_id=606044430]
+[node name="Resume" type="Button" parent="UI/PauseMenu/Control/Panel/VBoxContainer" unique_id=655729090]
 layout_mode = 2
+text = "Volver al juego"
 
-[node name="Button" type="Button" parent="UI/GameOverPanel/BoxContainer" unique_id=897818768]
+[node name="Config" type="Button" parent="UI/PauseMenu/Control/Panel/VBoxContainer" unique_id=1277777106]
 layout_mode = 2
-text = "Jugar de nuevo"
+text = "Configuración"
+
+[node name="Exit" type="Button" parent="UI/PauseMenu/Control/Panel/VBoxContainer" unique_id=397378069]
+layout_mode = 2
+text = "Salir del juego"
 
 [node name="BtnContinuar" type="Button" parent="." unique_id=438970265]
 offset_left = 892.0
@@ -204,6 +215,3 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_jbj1t")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_muem4")
 text = "CONTINUAR"
 flat = true
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=127369436]
-environment = SubResource("Environment_a8y0u")

@@ -8,6 +8,13 @@ class_name UIManager
 @export var winner_label: Label
 @export var play_again_button: Button
 
+
+@export var pause_panel: Panel
+@export var pause_resume_button: Button
+@export var pause_quit_button: Button
+
+var is_paused: bool = false
+
 var _player_manager: PlayerManager
 var _score_manager: ScoreManager
 var _state_machine: GameStateMachine
@@ -15,6 +22,8 @@ var _game_manager: GameManager
 
 func _ready() -> void:
 	print("[UIManager] Ready")
+
+	pause_panel.visible = false
  
 	_game_manager = get_tree().current_scene as GameManager
 	if not _game_manager:
@@ -59,6 +68,24 @@ func _on_state_entered(state: GameStateMachine.GameState) -> void:
 		GameStateMachine.GameState.GAME_OVER:
 			_set_game_over_visible(true)
  
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		_toggle_pause()
+
+func _toggle_pause():
+	is_paused = !is_paused
+	
+	pause_panel.visible = is_paused
+
+	var player = _game_manager.get_player_by_id(multiplayer.get_unique_id())
+
+	if player:
+		player.set_process_input(!is_paused)
+		player.set_physics_process(!is_paused)
+	
+
 func _on_round_started(round_number: int, rounds_to_win: int) -> void:
 	if round_label:
 		round_label.text = "Ronda %d — Primero en %d gana" % [round_number, rounds_to_win]
