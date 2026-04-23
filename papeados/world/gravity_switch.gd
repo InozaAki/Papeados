@@ -15,6 +15,13 @@ func _on_area_body_entered(body: Node) -> void:
 				player.set_gravity_inverted(true)
 				start_timer(player)
 
+'''
+Inicia un temporizador por jugador para restaurar su gravedad normal
+después de la duración configurada del switch.
+
+Args:
+	player (Player): Jugador al que se le revertirá la gravedad.
+'''
 func start_timer(player: Player) -> void:
 	var timer := Timer.new()
 	timer.wait_time = duration

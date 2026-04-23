@@ -32,6 +32,12 @@ func _ready():
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
+'''
+Inicializa el peer ENet como servidor y lo asigna al MultiplayerAPI global.
+
+Returns:
+	int: OK si el servidor se creó correctamente; código de error en caso contrario.
+'''
 func crear_servidor():
 	var error = peer.create_server(PORT, MAX_PLAYERS)
 	if error != OK:
@@ -43,6 +49,15 @@ func crear_servidor():
 	servidor_creado.emit()
 	return OK
 
+'''
+Intenta conectarse a un servidor ENet remoto usando la IP indicada.
+
+Args:
+	direccion_ip (String): Dirección IP del host.
+
+Returns:
+	int: OK si la conexión se inició; código de error en caso contrario.
+'''
 func unirse_servidor(direccion_ip: String):
 	var error = peer.create_client(direccion_ip, PORT)
 	if error != OK:

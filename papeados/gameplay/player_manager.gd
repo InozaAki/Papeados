@@ -31,11 +31,15 @@ var _next_spawn_index := 0
 
 
 '''
-Spawns a new player with the given peer_id. Only runs on the server. 
-After creating the player instance, it calls an RPC to spawn it on all clients.
+Spawnea un nuevo jugador con el peer_id dado. 
+
+Solo el servidor debe llamar a esta función.
+
+Después de crear la instancia del jugador, se llama a un RPC para que todos los clientes
+ creen la misma instancia en su escena.
 
 Args:
-	peer_id (int): The network peer ID of the player to spawn.
+	peer_id (int): El network peer ID del jugador a spawnear.
 '''
 func spawn_player(peer_id: int) -> void:
 	if not Validator.ensure_server(self):
@@ -51,12 +55,13 @@ func spawn_player(peer_id: int) -> void:
 
 
 '''
-Spawns a new player on all clients. 
-This is called by the server after creating the player instance.
+Solicita a los clientes que creen la instancia del jugador con el peer_id y posición dada.
+
+Solo se llama desde el servidor después de crear la instancia del jugador para sincronizarla en los clientes.
 
 Args:
-	peer_id (int): The network peer ID of the player to spawn.
-	pos (Vector2): The position where the player should be spawned.
+	peer_id (int): El network peer ID del jugador a spawnear.
+	pos (Vector2): La posición donde el jugador debe ser spawneado.
 '''
 @rpc("authority", "reliable")
 func _spawn_player_on_clients(peer_id: int, pos: Vector2) -> void:
@@ -66,15 +71,15 @@ func _spawn_player_on_clients(peer_id: int, pos: Vector2) -> void:
 
 
 '''
-Instantiates a player at the given position and adds it to the scene and data structures.
-This is an internal method and should not be called directly from outside.
+Crea la instancia del jugador, la configura y la registra en las estructuras de datos internas.
+Solo se llama desde el servidor para crear la instancia y luego se sincroniza en los clientes a través de un RPC.
 
 Args:
-	peer_id (int): The network peer ID of the player.
-	pos (Vector2): The position where the player should be spawned.
+	peer_id (int): El network peer ID del jugador.
+	pos (Vector2): La posición donde el jugador debe ser spawneado.
 
 Emits:
-	player_spawned(player: Player): Emitted after the player instance is created and added to the scene.
+	player_spawned(player: Player): Emitido después de que la instancia del jugador sea creada y agregada a la escena.
 '''
 func _create_player(peer_id: int, pos: Vector2) -> void:
 	if players.has(peer_id):
@@ -98,12 +103,15 @@ func _create_player(peer_id: int, pos: Vector2) -> void:
 	player_spawned.emit(player)
 
 '''
-Respawns a player with the given peer_id. 
-Only runs on the server.
-Uses the same logic as spawn_player but first checks if the player already exists and removes it if necessary.
+Respawnea a un jugador por su peer_id.
+
+Solo el servidor debe llamar a esta función.
+
+Utiliza la misma lógica que spawn_player para limpiar la instancia vieja (si existe) y 
+crear una nueva en una posición de spawn.
 
 Args:
-	peer_id (int): The network peer ID of the player to respawn.
+	peer_id (int): El network peer ID del jugador a respawnear.
 '''
 func respawn_player(peer_id: int) -> void:
 	if not Validator.ensure_server(self):
@@ -125,11 +133,11 @@ func respawn_player(peer_id: int) -> void:
 
 
 '''
-Deletes the player with the given peer_id.
-Only runs on the server. After removing the player instance, it calls an RPC to remove it on all clients.
+Elimina el jugador con el peer_id dado.
+Solo se ejecuta en el servidor. Después de eliminar la instancia del jugador, llama a un RPC para eliminarla en todos los clientes.
 
 Args:
-	peer_id (int): The network peer ID of the player to remove.
+	peer_id (int): El network peer ID del jugador a eliminar.
 '''
 func remove_player(peer_id: int) -> void:
 	if not players.has(peer_id):
@@ -139,11 +147,11 @@ func remove_player(peer_id: int) -> void:
 
 
 '''
-Used by the server to remove a player on all clients.
-This is called by the server after a player is removed from the data structures.
+Utilizado por el servidor para eliminar la instancia del jugador con el peer_id dado y 
+limpiar las estructuras de datos internas.
 
 Args:
-	peer_id (int): The network peer ID of the player to remove.
+	peer_id (int): El network peer ID del jugador a eliminar.
 '''
 @rpc("any_peer", "reliable", "call_local")
 func _remove_player_on_clients(peer_id: int) -> void:
@@ -161,11 +169,11 @@ func _remove_player_on_clients(peer_id: int) -> void:
 
 
 '''
-Marks a player as dead or alive. 
-This is used by the RoundManager to track which players are still alive in the current round.
+Marca a un jugador como muerto. 
+Esto es utilizado por el RoundManager para llevar un seguimiento de quién sigue vivo en la ronda actual.
 
 Args:
-	peer_id (int): The network peer ID of the player to mark.
+	peer_id (int): El network peer ID del jugador a marcar como muerto.
 '''
 func mark_player_dead(peer_id: int) -> void:
 	var data: PlayerData = players.get(peer_id)
@@ -173,10 +181,10 @@ func mark_player_dead(peer_id: int) -> void:
 		data.alive = false
 
 '''
-Marks a player as alive. This is used by the RoundManager to respawn players at the beginning of a new round.
+Marca a un jugador como vivo. Esto es utilizado por el RoundManager para respawnear jugadores al principio de una nueva ronda.
 
 Args:
-	peer_id (int): The network peer ID of the player to mark as alive.
+	peer_id (int): El network peer ID del jugador a marcar como vivo.
 '''
 func mark_player_alive(peer_id: int) -> void:
 	var data: PlayerData = players.get(peer_id)
@@ -190,11 +198,6 @@ func get_alive_peer_ids() -> Array[int]:
 			result.append(peer_id)
 	return result
 
-
-'''
-From now on, utility methods to get player instances, peer IDs, positions, etc.
-These can be used by other managers, the UI, etc. to query player information.
-'''
 func get_player(peer_id: int) -> Player:
 	var data: PlayerData = players.get(peer_id)
 	return data.player_instance if data else null
@@ -221,13 +224,6 @@ func get_all_peer_ids() -> Array:
 func count() -> int:
 	return players.size()
 
-
-'''
-Helper method used to get the next spawn position in order to cycle through them when spawning or respawning players.
-
-Returns:
-	Vector2: The next spawn position for a player.
-'''
 func _get_next_spawn_pos() -> Vector2:
 	var pos = spawn_positions[_next_spawn_index % spawn_positions.size()]
 	_next_spawn_index += 1

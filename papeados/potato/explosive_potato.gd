@@ -104,6 +104,10 @@ func _toggle_visibility() -> void:
 	if sprite:
 		sprite.visible = is_visible_state
 
+'''
+Ejecuta la explosión visual y de gameplay: calcula afectados,
+aplica knockback, emite la señal y destruye el nodo al finalizar audio.
+'''
 func _explode() -> void:
 	has_exploded = true
 	if sprite:
@@ -122,6 +126,13 @@ func _explode() -> void:
 	await audio.finished
 	queue_free()
 
+'''
+Devuelve los jugadores dentro del radio de explosión usando la posición
+actual de la papa y el grupo global de jugadores.
+
+Returns:
+	Array[Player]: Jugadores alcanzados por la explosión.
+'''
 func _get_players_in_radius() -> Array[Player]:
 	var result: Array[Player] = []
 	for player in get_tree().get_nodes_in_group("players"):
@@ -131,6 +142,13 @@ func _get_players_in_radius() -> Array[Player]:
 				result.append(player)
 	return result
 
+'''
+Calcula y aplica un impulso proporcional a la distancia del jugador
+respecto al centro de la explosión.
+
+Args:
+	player (Player): Jugador afectado por la explosión.
+'''
 func _apply_knockback(player: Player) -> void:
 	var distance := global_position.distance_to(player.global_position)
 	var direction := (player.global_position - global_position).normalized()

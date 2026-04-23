@@ -45,6 +45,14 @@ func stop_spawn_timer() -> void:
 		_spawn_timer.stop()
 
 
+'''
+Solicita el spawn de una papa sobre un jugador válido y sincroniza
+la acción por RPC para que todos los peers creen la misma instancia.
+
+Args:
+	target_player (Player): Jugador objetivo para adjuntar la papa.
+	player_manager (PlayerManager): Registro de jugadores para resolver peer IDs.
+'''
 func spawn_potato_on_player(target_player: Player, player_manager: PlayerManager) -> void:
 	if not multiplayer.is_server():
 		return
@@ -76,6 +84,12 @@ func _spawn_potato_on_clients(target_peer_id: int) -> void:
 	_create_potato(target_player)
 
 
+'''
+Instancia, configura y registra una papa activa vinculada al jugador destino.
+
+Args:
+	target_player (Player): Jugador al que se le adjunta la papa.
+'''
 func _create_potato(target_player: Player) -> void:
 	if not explosive_potato_scene: 
 		return

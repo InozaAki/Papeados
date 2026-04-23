@@ -8,6 +8,10 @@ func _ready():
 	btn_continuar.pressed.connect(_on_btn_continuar_pressed)
 	_cargar_datos_reales()
 
+'''
+Carga nombre y avatar del jugador local desde NetworkManager para mostrar
+el resultado correcto en pantalla de ganador.
+'''
 func _cargar_datos_reales():
 	var mi_id = multiplayer.get_unique_id()
 	var net = get_node("/root/NetworkManager")

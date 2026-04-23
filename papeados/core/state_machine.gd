@@ -29,6 +29,13 @@ func _connect_game_manager() -> void:
 		game_manager.game_started.connect(_on_game_started)
 		game_manager.game_ended.connect(_on_game_ended)
 
+'''
+Aplica los efectos de entrada del estado actual.
+Incluye cambios globales como pausa del árbol y transición de escena.
+
+Args:
+	state (GameState): Estado al que se está entrando.
+'''
 func _enter_state(state: GameState) -> void:
 	match state:
 		GameState.MENU:
@@ -55,6 +62,12 @@ func _enter_state(state: GameState) -> void:
 	
 	state_entered.emit(state)
 
+'''
+Revierte o limpia efectos del estado que se abandona antes de una transición.
+
+Args:
+	state (GameState): Estado que se está saliendo.
+'''
 func _exit_state(state: GameState) -> void:
 	match state:
 		GameState.MENU:
@@ -69,6 +82,13 @@ func _exit_state(state: GameState) -> void:
 	
 	state_exited.emit(state)
 
+'''
+Realiza una transición completa entre estados si el nuevo estado es distinto.
+Dispara salida, entrada y señal de cambio en ese orden.
+
+Args:
+	new_state (GameState): Estado destino.
+'''
 func change_state(new_state: GameState) -> void:
 	if new_state == current_state:
 		return
