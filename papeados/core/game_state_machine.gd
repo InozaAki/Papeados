@@ -25,10 +25,23 @@ func _ready() -> void:
 	if not _game_manager:
 		push_error("[GameStateMachine] No se encontró GameManager como padre.")
 
+'''
+Vincula explícitamente el GameManager y entra al estado inicial configurado.
+
+Args:
+	game_manager (GameManager): Referencia al orquestador principal del juego.
+'''
 func setup(game_manager: GameManager) -> void:
 	_game_manager = game_manager
 	_enter_state(current_state)
 
+'''
+Gestiona transición entre estados del ciclo de partida.
+Evita transiciones redundantes y emite señales de salida/entrada.
+
+Args:
+	new_state (GameState): Nuevo estado destino.
+'''
 func change_state(new_state: GameState) -> void:
 	if new_state == current_state:
 		return

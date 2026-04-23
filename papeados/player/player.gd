@@ -109,6 +109,14 @@ func _setup_network() -> void:
 # ========================================
 # PHYSICS PROCESS
 # ========================================
+'''
+Bucle principal de simulación del jugador.
+Si el nodo tiene autoridad procesa input/física y sincroniza red;
+si no, interpola usando el último estado recibido.
+
+Args:
+	delta (float): Tiempo transcurrido desde el último frame físico.
+'''
 func _physics_process(delta: float) -> void:
 	# SEGURO ANTI-CRASH: Evita procesar si la red se desconectó (ej: al cambiar de escena)
 	if not multiplayer.has_multiplayer_peer(): 
@@ -137,6 +145,13 @@ func force_leave_floor():
 # ========================================
 # ACTUALIZACIÓN DE RED (Solo cliente local)
 # ========================================
+'''
+Acumula tiempo y envía snapshots de movimiento a intervalos fijos
+sólo cuando hay cambios relevantes de posición o velocidad.
+
+Args:
+	delta (float): Tiempo acumulado para el throttling de red.
+'''
 func _network_update(delta: float) -> void:
 	network_update_timer += delta
 	
@@ -249,6 +264,10 @@ func _handle_horizontal_movement(delta: float) -> void:
 # ========================================
 # SALTO (Con sincronización RPC)
 # ========================================
+'''
+Gestiona salto normal y doble salto sólo en el jugador con autoridad.
+Cuando ocurre un salto, notifica por RPC para sincronizar feedback audiovisual.
+'''
 func _handle_jump() -> void:
 	if not Input.is_action_just_pressed(action_jump):
 		return
@@ -277,6 +296,10 @@ func _handle_dash() -> void:
 		if input_vector.length() > 0:
 			_start_dash()
 
+'''
+Ejecuta el ciclo completo de dash: inicio, duración activa y cooldown.
+Sincroniza inicio y fin con el resto de peers mediante RPC.
+'''
 func _start_dash() -> void:
 	is_dashing = true
 	can_dash = false
@@ -365,6 +388,13 @@ func _on_area_2d_body_entered(body: Node) -> void:
 		_ask_transfer.rpc_id(1, body.player_id)
 
 @rpc("any_peer", "reliable")
+'''
+Solicitud validada en servidor para transferir la papa al jugador objetivo.
+Ignora la operación si el emisor no puede transferir o no posee la papa.
+
+Args:
+	to_player_id (int): Peer ID del jugador destino.
+'''
 func _ask_transfer(to_player_id: int) -> void:
 	if not multiplayer.is_server():
 		return

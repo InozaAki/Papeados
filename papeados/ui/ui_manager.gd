@@ -107,6 +107,10 @@ func _on_score_updated(_peer_id: int, _score: int) -> void:
 	_rebuild_players_label()
  
  
+'''
+Reconstruye el listado de jugadores mostrando puntaje y estado de vida
+usando los datos coordinados de PlayerManager y ScoreManager.
+'''
 func _rebuild_players_label() -> void:
 	if not players_label or not _player_manager:
 		return
@@ -122,6 +126,10 @@ func _rebuild_players_label() -> void:
  
 	players_label.text = text.strip_edges()
  
+'''
+Calcula el ganador final a partir del score acumulado y actualiza
+el panel de fin de partida para todos los clientes.
+'''
 func _on_game_ended() -> void:
 	if not _score_manager or not _player_manager:
 		return

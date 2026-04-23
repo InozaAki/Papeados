@@ -16,11 +16,12 @@ func initialize(peer_ids: Array) -> void:
 	print("[ScoreManager] Marcador inicializado para %d jugadores." % peer_ids.size())
 
 '''
-Used to register a new player in the score manager. 
-This should be called by the GameManager when a new player joins the game to ensure they are tracked in the scores.
+Usado para registrar un nuevo jugador en el marcador. 
+Solo se debe llamar desde el GameManager cuando un nuevo jugador se une al juego 
+para asegurarse de que estén rastreados en los puntajes.
 
 Args:
-    peer_id (int): The network peer ID of the player to register.
+    peer_id (int): El network peer ID del jugador a registrar en el marcador.
 '''
 func register_player(peer_id: int) -> void:
 	if not scores.has(peer_id):
@@ -28,12 +29,12 @@ func register_player(peer_id: int) -> void:
 
 
 '''
-Adds a point to the player's score. 
-Only runs on the server. 
-After updating the score, it calls an RPC to sync it on all clients.
+Agrega un punto al puntaje del jugador. 
+Solo se ejecuta en el servidor. 
+Después de actualizar el puntaje, llama a un RPC para sincronizarlo en todos los clientes.
 
 Args:
-	peer_id (int): The network peer ID of the player to add a point to.
+	peer_id (int): El network peer ID del jugador al que agregar un punto.
 '''
 func add_score(peer_id: int) -> void:
 	if not Validator.ensure_server(self):
@@ -49,22 +50,20 @@ func add_score(peer_id: int) -> void:
 
 
 '''
-Used to replicate (sync) a player's score on all clients.
-This is called by the server after updating a player's score to ensure all clients have the correct score
+Utilizado para sincronizar el puntaje actualizado de un jugador a todos 
+los clientes después de que el servidor lo haya modificado.
+Solo se llama desde el servidor después de actualizar el 
+puntaje de un jugador para asegurar que todos los clientes tengan el puntaje correcto.
 
 Args:
-	peer_id (int): The network peer ID of the player whose score is being synced.
-	new_score (int): The new score value to set for the player.
+	peer_id (int): El network peer ID del jugador cuyo puntaje se actualizó.
+	new_score (int): El nuevo valor de puntaje para el jugador.
 '''
 @rpc("authority", "reliable", "call_local")
 func _sync_score(peer_id: int, new_score: int) -> void:
 	scores[peer_id] = new_score
 	score_updated.emit(peer_id, new_score)
 
-
-'''
-Helper methods for game logic, such as checking if a player has won, getting scores, etc.
-'''
 func has_won(peer_id: int, rounds_to_win: int) -> bool:
 	return scores.get(peer_id, 0) >= rounds_to_win
 

@@ -24,9 +24,7 @@ func _ready() -> void:
 	else:
 		_initialize_client()
 
-'''
-Initializes the game state on the server, sets up signal connections, and starts the first round.
-'''
+
 func _initialize_server() -> void:
 	print("[GameManager] === Inicializando SERVIDOR ===")
  
@@ -44,18 +42,11 @@ func _initialize_server() -> void:
  
 	game_started.emit()
 
-
-'''
-Initializes the client state and requests the current game state from the server.
-'''
 func _initialize_client() -> void:
 	print("[GameManager] === Inicializando CLIENTE ===")
 	state_machine.setup(self)
 	call_deferred("_request_game_state")
 
-'''
-Helper method to connect signals from the PotatoManager and RoundManager to the GameManager's handlers.
-'''
 func _connect_signals() -> void:
 	potato_manager.players_affected_by_explosion.connect(_on_players_affected_by_explosion)
 	

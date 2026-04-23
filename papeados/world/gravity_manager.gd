@@ -6,6 +6,13 @@ var gravity_multiplier := 1.0
 func get_gravity() -> float:
 	return base_gravity * gravity_multiplier
 
+'''
+Invierte temporalmente la gravedad global y fuerza a los jugadores a
+recalcular contacto con el suelo para aplicar el cambio de inmediato.
+
+Args:
+	duration (float): Tiempo en segundos que dura la inversión.
+'''
 func invert_gravity(duration: float) -> void:
 	gravity_multiplier = -1.0
 

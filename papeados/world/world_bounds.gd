@@ -9,6 +9,10 @@ extends Node2D
 func _ready() -> void:
 	create_walls()
 
+'''
+Construye los cuatro límites físicos de la arena (suelo, techo y laterales)
+usando dimensiones y grosor configurables.
+'''
 func create_walls():
 	# Floor
 	create_wall(

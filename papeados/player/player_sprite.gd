@@ -23,6 +23,10 @@ func _ready() -> void:
 	_setup_pool()
 
 
+'''
+Preinstancia un pool de sprites fantasma para reutilizarlos durante el dash
+y evitar allocaciones en tiempo real.
+'''
 func _setup_pool() -> void:
 	var parent := player.get_parent()
 	var sf := animated_sprite.sprite_frames
@@ -67,6 +71,10 @@ func _process(delta: float) -> void:
 
 	_emit_ghost()
 
+'''
+Toma un sprite del pool, copia el frame actual del jugador y lo agrega
+a la lista activa para desvanecimiento progresivo.
+'''
 func _emit_ghost() -> void:
 	var s: AnimatedSprite2D = _pool.pop_back()
 	s.sprite_frames = animated_sprite.sprite_frames

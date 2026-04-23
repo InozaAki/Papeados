@@ -19,15 +19,18 @@ var players_dead_this_round: Array[int] = []
 
 
 '''
-Manages the flow of the starting rounds, used to respawn players at the beginning of each round
+Maneja la lógica de inicio de ronda, 
+incluyendo la regeneración del mapa, el respawn de jugadores muertos, 
+y la emisión de señales para actualizar la UI y permitir el spawn de papas.
 
 Args:
-	player_manager (PlayerManager): The PlayerManager instance to manage player states and respawns.
+	player_manager (PlayerManager): El PlayerManager para gestionar el estado de los jugadores al inicio de la ronda.
 
 Emits:
 	round_started(round_number: int, rounds_to_win: int): 
-		(RPC) Emitted at the start of each round with the current round number and rounds needed to win.
-	round_ready_to_spawn: Emitted when the round is ready for potatoes to start spawning.
+		(RPC) Emitida a todos los clientes para anunciar el inicio de una nueva 
+		ronda con su número y la cantidad de rondas necesarias para ganar.
+	round_ready_to_spawn: Emitida por el servidor después de iniciar la ronda para indicar que es seguro spawnear papas.
 
 '''
 func start_round(player_manager: PlayerManager) -> void:
@@ -63,13 +66,14 @@ func _announce_round_start(number: int, to_win: int) -> void:
 	round_started.emit(number, to_win)
 
 '''
-Checks if the round has ended by counting alive players. 
-If only one or zero players are alive, it finishes the round and awards points.
+Verifica si la ronda ha terminado evaluando el estado de los jugadores vivos.
+Si la ronda terminó, maneja la lógica de fin de ronda, incluyendo el anuncio del sobreviviente,
+la actualización de puntajes, y la preparación para la siguiente ronda o el fin del juego.
 
 Args:
-	player_manager (PlayerManager): The PlayerManager instance to check player states.
-	score_manager (ScoreManager): The ScoreManager instance to award points.
-	potato_manager (PotatoManager): The PotatoManager instance to stop spawning potatoes if the round ends.
+	player_manager (PlayerManager): El PlayerManager para consultar el estado de los jugadores vivos.
+	score_manager (ScoreManager): El ScoreManager para actualizar puntajes y verificar condiciones de victoria.
+	potato_manager (PotatoManager): El PotatoManager para detener el spawn de papas si la ronda termina.
 
 '''
 func check_round_end(player_manager: PlayerManager, score_manager: ScoreManager, potato_manager: PotatoManager) -> void:
@@ -90,14 +94,17 @@ func check_round_end(player_manager: PlayerManager, score_manager: ScoreManager,
 			potato_manager.start_spawn_timer()
 
 '''
-Manages the finish of a round, awarding points to the survivor and checking for game end conditions.
-This is called by the server when a round ends to handle the logic of awarding points, checking for winners, and starting the next round.
+Maneja la lógica de fin de ronda, incluyendo el anuncio del sobreviviente, 
+la actualización de puntajes, y la preparación para la siguiente ronda o el fin del juego.
+
+Esta función es llamada por el servidor cuando se detecta que la ronda ha terminado 
+para procesar el resultado y avanzar al siguiente estado del juego.
 
 Args:
-	survivor_peer_id (int): The network peer ID of the survivor of the round, or -1 if there are no survivors.
-	player_manager (PlayerManager): The PlayerManager instance to manage player states and respawns.
-	score_manager (ScoreManager): The ScoreManager instance to award points.
-	potato_manager (PotatoManager): The PotatoManager instance to stop spawning potatoes if the round ends.
+	survivor_peer_id (int): El network peer ID del sobreviviente de la ronda, o -1 si no hay sobrevivientes.
+	player_manager (PlayerManager): El PlayerManager para gestionar el estado de los jugadores al finalizar la ronda.
+	score_manager (ScoreManager): El ScoreManager para actualizar puntajes y verificar condiciones de victoria.
+	potato_manager (PotatoManager): El PotatoManager para detener el spawn de papas si la ronda termina.
 
 '''
 func _finish_round(survivor_peer_id: int, player_manager: PlayerManager, score_manager: ScoreManager, potato_manager: PotatoManager) -> void:
@@ -117,11 +124,10 @@ func _finish_round(survivor_peer_id: int, player_manager: PlayerManager, score_m
 
 
 '''
-Used to announce the end of a round to all clients. 
-This is called by the server when a round ends to notify clients of the survivor.
+Usada para anunciar el fin de la ronda a todos los clientes, indicando quién sobrevivió (si alguien sobrevivió).
 
 Args:
-	survivor_peer_id (int): The network peer ID of the survivor of the round, or -1 if there are no survivors.
+	survivor_peer_id (int): El network peer ID del sobreviviente de la ronda, o -1 si no hay sobrevivientes.
 '''
 @rpc("authority", "reliable", "call_local")
 func _announce_round_end(survivor_peer_id: int) -> void:
@@ -129,12 +135,13 @@ func _announce_round_end(survivor_peer_id: int) -> void:
 	round_ended.emit(survivor_peer_id)
 
 '''
-Used by the PotatoManager to mark a player as dead when they are hit by an explosion.
-This is called by the PotatoManager when a player is affected by an explosion to update their state
-in the PlayerManager and to track which players have died in the current round.
+Marca a un jugador como muerto y lo registra en la lista de jugadores muertos de esta ronda.
+Esta función es llamada por el PlayerManager cuando un jugador muere para actualizar su estado y permitir
+que el RoundManager lleve un seguimiento de quién ha muerto durante la ronda actual.
+
 Args:
-	peer_id (int): The network peer ID of the player to mark as dead.
-	player_manager (PlayerManager): The PlayerManager instance to update the player's state.
+	peer_id (int): El network peer ID del jugador a marcar como muerto.
+	player_manager (PlayerManager): La instancia del PlayerManager para actualizar el estado del jugador.
 '''
 func register_death(peer_id: int, player_manager: PlayerManager) -> void:
 	player_manager.mark_player_dead(peer_id)

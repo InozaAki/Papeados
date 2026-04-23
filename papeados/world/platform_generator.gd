@@ -71,6 +71,10 @@ func generate_platforms():
 		child.queue_free()
 	generate_random_platforms()
 
+'''
+Genera plataformas aleatorias respetando límites de arena y espaciado.
+Reintenta hasta un máximo de intentos para evitar bucles infinitos.
+'''
 func generate_random_platforms():
 	var max_attempts = platform_count * 10
 	var attempts = 0
@@ -92,6 +96,17 @@ func generate_random_platforms():
 		if is_valid_position(pos, width):
 			create_platform(pos, width)
 
+'''
+Valida si una nueva plataforma mantiene la separación mínima respecto
+de las plataformas ya generadas.
+
+Args:
+	pos (Vector2): Posición candidata para la plataforma.
+	width (float): Ancho de la plataforma candidata.
+
+Returns:
+	bool: True si la posición es válida; false si colisiona por espaciado.
+'''
 func is_valid_position(pos: Vector2, width: float) -> bool:
 	for platform_data in platforms:
 		var other_pos = platform_data.position
@@ -101,6 +116,14 @@ func is_valid_position(pos: Vector2, width: float) -> bool:
 				return false
 	return true
 
+'''
+Crea una plataforma física y su representación visual, y la registra
+en la lista interna de plataformas generadas.
+
+Args:
+	pos (Vector2): Centro de la plataforma.
+	width (float): Ancho de la plataforma.
+'''
 func create_platform(pos: Vector2, width: float):
 	var platform = StaticBody2D.new()
 	var collision = CollisionShape2D.new()

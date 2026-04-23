@@ -2,15 +2,14 @@ extends Node
 class_name Validator
 
 '''
-Helper class with static methods to validate server authority and other common checks across the game.
-This class is not meant to be instantiated. Just call its static methods from anywhere in the code.
-Ensure server authority before performing actions that should only be done on the server.
+Clase de utilidad para validar condiciones comunes en el código, 
+como verificar autoridad de servidor, existencia de nodos, etc.
 
 Args:
-	node (Node): The node from which the method is being called. Used to check multiplayer authority 
+	node (Node): El nodo desde el cual se realiza la validación, utilizado para acceder a su MultiplayerAPI y mostrar mensajes de error contextuales.
 
 Returns:
-	bool: True if the node has server authority, false otherwise. Also prints an error message if the check fails.
+	bool: True si el nodo es el servidor; false si es un cliente.
 '''
 static func ensure_server(node: Node) -> bool:
 	if not node.multiplayer.is_server():

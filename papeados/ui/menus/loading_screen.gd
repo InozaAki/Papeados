@@ -6,6 +6,13 @@ var scene_to_load_path
 var loading_screen_instance
 var loading = false
 
+'''
+Inicia la carga asíncrona de una escena mostrando pantalla de progreso,
+liberando la escena actual para reducir uso de memoria.
+
+Args:
+	path (String): Ruta de la escena que se desea cargar.
+'''
 func load_scene(path):
 	var curren_scene = get_tree().current_scene
 	

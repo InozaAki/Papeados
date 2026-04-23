@@ -63,6 +63,10 @@ func _obtener_ip_local() -> String:
 			break
 	return ip
 
+'''
+Maneja la acción principal del botón iniciar:
+como host valida jugadores y arranca partida; como cliente intenta unirse.
+'''
 func _on_iniciar_pressed():
 	if soy_anfitrion:
 		if Jugadores.size() > 1:
@@ -118,6 +122,10 @@ func _on_salir_pressed():
 	Jugadores.clear()
 	get_tree().change_scene_to_file("res://ui/menus/main_menu.tscn")
 
+'''
+Realiza la transición del host a la escena principal usando pantalla
+de carga para mantener feedback visual durante el cambio.
+'''
 func _change_scene_to_main_server():
 	
 	MusicController.pause_music()
@@ -130,6 +138,10 @@ func _change_scene_to_main_clients():
 		MusicController.pause_music()
 		LoadingScreenScript.load_scene("res://scenes/main.tscn")
 
+'''
+Reconstruye visualmente la lista de sala y sincroniza en NetworkManager
+el nombre/avatar de cada peer conectado.
+'''
 func _actualizar_lista_visual():
 	for hijo in $ListaJugadores.get_children():
 		hijo.queue_free()
