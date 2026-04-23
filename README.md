@@ -28,13 +28,13 @@ Este proyecto es desarrollado como parte del curso de **Videojuegos en Red** con
 - [x] Temporizador regresivo
 - [x] Transferencia de papa entre jugadores
 - [x] Sistema de eliminación
+- [x] Sistema de puntuación
+- [x] Networking multijugador
+- [x] Sistema de lobby
 
 ### En Desarrollo
-- [ ] Networking multijugador
-- [ ] Sistema de lobby
 - [ ] Interfaz de usuario completa
 - [ ] Efectos de sonido y música
-- [ ] Sistema de puntuación
 ### Propuestas de mecánicas a añadir
 
 **Mecánicas de las papas**
@@ -185,11 +185,11 @@ git checkout -b fix/collision-bug
 
 ### Fase 2: Desarrollo del Prototipo
 **13 marzo - 25 abril 2026**
-- [ ] Implementar mecánicas básicas (movimiento, colisión)
-- [ ] Implementar temporizador
-- [ ] Sistema de networking básico
-- [ ] Interfaz de usuario mínima
-- [ ] Testing multijugador
+- [x] Implementar mecánicas básicas (movimiento, colisión)
+- [x] Implementar temporizador
+- [x] Sistema de networking básico
+- [x] Interfaz de usuario mínima
+- [x] Testing multijugador
 - [ ] Entrega documentación Fase 2
 
 ### Fase 3: Refinamiento y Entrega Final
